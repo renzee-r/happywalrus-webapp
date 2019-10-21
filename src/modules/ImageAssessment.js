@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import clsx from 'clsx';
 import {
     Button, Container, CssBaseline, Grid, Typography, 
-    Snackbar, SnackbarContent, IconButton, Link
+    Snackbar, SnackbarContent, IconButton, Link, FormControlLabel,
+    Switch
 } from '@material-ui/core';
 import { 
-    BrowserRouter as Router, Switch, Route, Link as RouterLink 
+    Link as RouterLink 
 } from "react-router-dom";
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -73,7 +74,7 @@ const ExpansionPanel = withStyles({
   
 const ExpansionPanelSummary = withStyles({
     root: {
-      backgroundColor: 'rgba(0, 0, 0, .03)',
+      backgroundColor: 'pink',
       borderBottom: '1px solid rgba(0, 0, 0, .125)',
       marginBottom: -1,
       minHeight: 56,
@@ -102,9 +103,11 @@ class ImageAssessment extends Component {
         super(props);
         
         this.handleClose = this.handleClose.bind(this);
+        this.handleCheckChange = this.handleCheckChange.bind(this);
 
         this.state = {
-            isOpen: true
+            isOpen: true,
+            isChecked: false,
         }
     }
 
@@ -113,6 +116,13 @@ class ImageAssessment extends Component {
             isOpen: false
         }))
     }
+
+    handleCheckChange() {
+        this.setState(state => ({
+            isChecked: true
+        }))
+    };
+    
 
 
     render() {
@@ -138,17 +148,55 @@ class ImageAssessment extends Component {
                             <div>
                             <ExpansionPanel>
                                 <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
                                 >
-                                    <Typography className={classes.heading}>Expansion Panel 1</Typography>
+                                    <Typography className={classes.heading}>Electrical Outlets/Plugs</Typography>
                                 </ExpansionPanelSummary>
+
                                 <ExpansionPanelDetails>
-                                    <Typography>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                        sit amet blandit leo lobortis eget.
-                                    </Typography>
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={4}>
+                                            <Typography>
+                                                Risk Category:
+                                            </Typography>
+                                        </Grid>
+
+                                        <Grid item xs={8}>
+                                            <Typography>
+                                                Electrical Hazard
+                                            </Typography>
+                                        </Grid>
+
+                                        <Grid item xs={4}>
+                                            <Typography>
+                                                Risk Description:
+                                            </Typography>
+                                        </Grid>
+
+                                        <Grid item xs={8}>
+                                            <Typography>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                                sit amet blandit leo lobortis eget.
+                                            </Typography>
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <FormControlLabel
+                                                control={
+                                                <Switch
+                                                    checked={this.state.isChecked}
+                                                    onChange={this.handleCheckChange}
+                                                    value="checkedB"
+                                                    color="primary"
+                                                />
+                                                }
+                                                label="Not Resolved"
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                   
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
 
@@ -158,7 +206,7 @@ class ImageAssessment extends Component {
                                 aria-controls="panel2a-content"
                                 id="panel2a-header"
                                 >
-                                    <Typography className={classes.heading}>Expansion Panel 2</Typography>
+                                    <Typography className={classes.heading}>Oven/Stovetop</Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <Typography>
@@ -174,7 +222,7 @@ class ImageAssessment extends Component {
                                 aria-controls="panel3a-content"
                                 id="panel3a-header"
                                 >
-                                    <Typography className={classes.heading}>Expansion Panel 2</Typography>
+                                    <Typography className={classes.heading}>Falling Hazards</Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <Typography>
@@ -194,7 +242,7 @@ class ImageAssessment extends Component {
                         horizontal: 'right',
                     }}
                     open={this.state.isOpen}
-                    onClose={this.handleClose}
+                    // onClose={this.handleClose}
                 >
                     <SnackbarContent
                         className={classes.snackbar}

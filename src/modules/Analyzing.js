@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
+import {PythonShell} from 'python-shell';
 
 const styles = theme => ({
     root: {
@@ -49,11 +50,20 @@ class Analyzing extends Component {
 
         this.state = {
             completed: 0,
+            modelData: null,
         };
     }
 
     componentDidMount() {
-        this.timer = setTimeout(() => this.progress(70), 1000);
+        fetch("/hazards")
+            .then(response => response.json())
+            .then(data => this.setState({
+                modelData: data
+            })
+        );
+
+
+        this.timer = setTimeout(() => this.progress(90), 1000);
     }
 
     componentWillUnmount() {
@@ -62,8 +72,10 @@ class Analyzing extends Component {
 
     progress(completed) {
         if (completed > 100) {
-            this.props.history.push('/image-assessment');
+            // this.props.history.push('/image-assessment');
             this.setState({completed: 100});
+            console.log(this.state.modelData);
+
         } else {
             this.setState({completed});
             const diff = Math.random() * 10;
