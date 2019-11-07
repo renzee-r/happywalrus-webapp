@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import clsx from 'clsx';
+import React, { Component, Fragment } from 'react';
 import {
-    Button, Container, CssBaseline, Grid, Typography, 
+    Grid, Typography, 
     Snackbar, SnackbarContent, IconButton, Link, FormControlLabel,
-    Switch
+    Switch, Drawer
 } from '@material-ui/core';
 import { 
     Link as RouterLink 
@@ -12,37 +11,43 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon  from '@material-ui/icons/Close';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-
+import { withStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 const styles = theme => ({
     root: {
         color: theme.palette.common.white,
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        [theme.breakpoints.up('md')]: {
-            height: '90vh',
-            minHeight: 500,
-            maxHeight: 1300,
-        },
+        height: '89.2vh',
+        minHeight: 500,
+        maxHeight: 1300,
     },
     container: {
-        // marginTop: theme.spacing(3),
+        marginTop: theme.spacing(8),
         // marginBottom: theme.spacing(14),
+        height: '83vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
     item: {
         display: 'flex',
+        height: '100%',
+        width: '100%',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: theme.spacing(0, 5),
+        padding: theme.spacing(0, 0),
+    },
+    demoCanvas: {
+        height: '90%',
+    //     backgroundImage: 'url(orange_kitchen.EH.057-orig.jpg)',
+    //     backgroundRepeat: 'no-repeat',
+    //     backgroundSize: '1600px 800px',
     },
     demoImage: {
-        height: '70vh'
+        display: 'none',
     },
     snackbar: {
         backgroundColor: theme.palette.primary.main,
@@ -50,7 +55,17 @@ const styles = theme => ({
     snackbarLink: {
         color: '#fde3a7',
         marginLeft: theme.spacing(1),
-    }
+    },
+    drawer: {
+        width: 480,
+        flexShrink: 0,
+        zIndex: 0,
+    },
+    drawerPaper: {
+        marginTop: 65,
+        width: 480,
+        height: "82.5vh",
+    },
 });
 
 const RefLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
@@ -66,7 +81,7 @@ const ExpansionPanel = withStyles({
         display: 'none',
       },
       '&$expanded': {
-        margin: 'auto',
+        // margin: 'auto',
       },
     },
     expanded: {},
@@ -74,7 +89,7 @@ const ExpansionPanel = withStyles({
   
 const ExpansionPanelSummary = withStyles({
     root: {
-      backgroundColor: 'pink',
+      backgroundColor: '#e08283',
       borderBottom: '1px solid rgba(0, 0, 0, .125)',
       marginBottom: -1,
       minHeight: 56,
@@ -104,11 +119,58 @@ class ImageAssessment extends Component {
         
         this.handleClose = this.handleClose.bind(this);
         this.handleCheckChange = this.handleCheckChange.bind(this);
+        this.handleExpansionOnClick = this.handleExpansionOnClick.bind(this);
 
         this.state = {
             isOpen: true,
             isChecked: false,
+            isLoading: true,
+            modelData: null,
         }
+    }
+
+    componentDidMount() {
+        const canvas = this.refs.canvas
+        const ctx = canvas.getContext('2d');
+
+        this.setState({ isLoading: true });
+
+        fetch("/hazards")
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    modelData: data,
+                    isLoading: false,
+                });
+                console.log(this.state.modelData);
+
+                var img = new Image();
+                img.src = 'orange_kitchen.EH.057-orig.jpg';
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, 1600, 900);
+
+                    const canvWidth = 1600;
+                    const canvHeight = 900;
+                    const originalImgWidth = 800;
+                    const originalImgHeight = 600;
+
+                    this.state.modelData.forEach(function(pred) {
+                        pred['boxes'].forEach(function(box) {
+                            var minX = box[0] * canvWidth / originalImgWidth;
+                            var minY = box[1] * canvHeight / originalImgHeight;
+                            var width = (box[2] * canvWidth / originalImgWidth) - minX;
+                            var height = (box[3] * canvHeight / originalImgHeight) - minY;
+                            ctx.beginPath();
+                            ctx.strokeStyle = "#96281b";
+                            ctx.shadowColor = "white";
+                            ctx.lineWidth = 10;
+                            ctx.rect(minX, minY, width, height);
+                            ctx.stroke();
+                        })
+                    })
+                } 
+            }
+        );
     }
 
     handleClose() {
@@ -121,51 +183,61 @@ class ImageAssessment extends Component {
         this.setState(state => ({
             isChecked: true
         }))
-    };
+    }
     
+    handleExpansionOnClick = () => {
+        console.log('test');
+    }
 
 
     render() {
         const { classes } = this.props
+        const { modelData, isLoading , isOpen, isChecked } = this.state
+        // console.log(this.state.modelData.file_name)
 
-        return (
-            // Allow user to filter/sort risk items 
+        let riskPanel;
 
-            <section className={classes.root}>
-                <Container maxWidth="false">
-                    <Grid container spacing={2}>
-                        <Grid item sm={7}>
-                            <div className={classes.item}>
-                                <img
-                                    src="ADE_train_00000598.jpg"
-                                    alt="image-demo"
-                                    className={classes.demoImage}
-                                />
-                            </div>
-                        </Grid>
-
-                        <Grid item sm={5}>
-                            <div>
+        if (isLoading) {
+            riskPanel = 
+                <Fragment>
+                    <Divider />
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            Loading...
+                        </ExpansionPanelSummary>
+                    </ExpansionPanel>
+                </Fragment>;
+        } else {
+            riskPanel = 
+                <Fragment>
+                    {this.state.modelData.map(function(pred) {
+                        return <Fragment>
+                            <Divider />
                             <ExpansionPanel>
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1a-content"
                                     id="panel1a-header"
+                                    // onclick={this.handleExpansionOnClick}
                                 >
-                                    <Typography className={classes.heading}>Electrical Outlets/Plugs</Typography>
+                                    <Typography variant="h6" className={classes.heading}>{pred['category']}</Typography>
                                 </ExpansionPanelSummary>
 
                                 <ExpansionPanelDetails>
                                     <Grid container spacing={1}>
                                         <Grid item xs={4}>
                                             <Typography>
-                                                Risk Category:
+                                                Risk Object(s):
                                             </Typography>
                                         </Grid>
 
                                         <Grid item xs={8}>
                                             <Typography>
-                                                Electrical Hazard
+                                                {pred['name']}
                                             </Typography>
                                         </Grid>
 
@@ -177,17 +249,29 @@ class ImageAssessment extends Component {
 
                                         <Grid item xs={8}>
                                             <Typography>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                                sit amet blandit leo lobortis eget.
+                                                {pred['description']}
                                             </Typography>
                                         </Grid>
+
+                                        <Grid item xs={4}>
+                                            <Typography>
+                                                Recommended Solutions:
+                                            </Typography>
+                                        </Grid>
+
+                                        <Grid item xs={8}>
+                                            <Typography>
+                                                {pred['solution']}
+                                            </Typography>
+                                        </Grid>
+
 
                                         <Grid item xs={12}>
                                             <FormControlLabel
                                                 control={
                                                 <Switch
-                                                    checked={this.state.isChecked}
-                                                    onChange={this.handleCheckChange}
+                                                    checked={false}
+                                                    // onChange={this.handleCheckChange}
                                                     value="checkedB"
                                                     color="primary"
                                                 />
@@ -196,78 +280,71 @@ class ImageAssessment extends Component {
                                             />
                                         </Grid>
                                     </Grid>
-                                   
+                                
                                 </ExpansionPanelDetails>
-                            </ExpansionPanel>
 
-                            <ExpansionPanel>
-                                <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel2a-content"
-                                id="panel2a-header"
-                                >
-                                    <Typography className={classes.heading}>Oven/Stovetop</Typography>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails>
-                                    <Typography>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                        sit amet blandit leo lobortis eget.
-                                    </Typography>
-                                </ExpansionPanelDetails>
                             </ExpansionPanel>
+                        </Fragment>;
+                    })}
+                </Fragment>;
+        }
 
-                            <ExpansionPanel>
-                                <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel3a-content"
-                                id="panel3a-header"
-                                >
-                                    <Typography className={classes.heading}>Falling Hazards</Typography>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails>
-                                    <Typography>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                        sit amet blandit leo lobortis eget.
-                                    </Typography>
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-
-                            </div>
-                        </Grid>
-                    </Grid>
-                </Container>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
+        return (
+        
+            <section className={classes.root}>
+                <Drawer
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{
+                    paper: classes.drawerPaper,
                     }}
-                    open={this.state.isOpen}
-                    // onClose={this.handleClose}
+                    anchor="left"
                 >
-                    <SnackbarContent
-                        className={classes.snackbar}
-                        aria-describedby="client-snackbar"
-                        message={
-                            <span id="message-id">
-                                Have a Moment?
-                                <Link href='https://www.surveymonkey.com/r/ZVST7JP' target="_blank" underline='always' className={classes.snackbarLink}>
-                                    Please take this quick survey!
-                                </Link>
-                            </span>
-                        }
-                        action={[
-                            <IconButton
-                                key="close"
-                                aria-label="close"
-                                color="inherit"
-                                className={classes.close}
-                                onClick={this.handleClose}
-                            >
-                                <CloseIcon />
-                            </IconButton>,
-                        ]}
-                        />
-                </Snackbar>
+                    <div className={classes.toolbar} />
+
+                    {riskPanel}
+                    
+                </Drawer>
+
+                {/* <main> */}
+                    <Grid container direction="column" justify='center' alignItems='center' className={classes.container}>
+                        {/* <div className={classes.item} > */}
+                            <canvas ref='canvas' height={900} width={1600} className={classes.demoCanvas}/>
+                        {/* </div> */}
+                    </Grid>
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        open={this.state.isOpen}
+                        // onClose={this.handleClose}
+                    >
+                        <SnackbarContent
+                            className={classes.snackbar}
+                            aria-describedby="client-snackbar"
+                            message={
+                                <Typography variant='h6' id="message-id">
+                                    Have a Moment?
+                                    <Link href='https://www.surveymonkey.com/r/ZVST7JP' target="_blank" underline='always' className={classes.snackbarLink}>
+                                        Please take this quick survey!
+                                    </Link>
+                                </Typography>
+                            }
+                            action={[
+                                <IconButton
+                                    key="close"
+                                    aria-label="close"
+                                    color="inherit"
+                                    className={classes.close}
+                                    onClick={this.handleClose}
+                                >
+                                    <CloseIcon />
+                                </IconButton>,
+                            ]}
+                            />
+                    </Snackbar>
+                {/* </main> */}
             </section>
         )
     }

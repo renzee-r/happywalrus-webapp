@@ -60,7 +60,7 @@ class ProductHero extends Component {
             triggerElement: '#scrollStarts',
         })
         .setTween('#myElement', {y: '100%', ease: Linear.easeNone})
-        .addIndicators() // add indicators (requires plugin)
+        // .addIndicators() // add indicators (requires plugin)
         .addTo(this.controller); // assign the scene to the controller
       }
 

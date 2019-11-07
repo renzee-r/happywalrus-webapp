@@ -72,9 +72,9 @@ class Analyzing extends Component {
 
     progress(completed) {
         if (completed > 100) {
-            // this.props.history.push('/image-assessment');
+            this.props.history.push('/image-assessment');
             this.setState({completed: 100});
-            console.log(this.state.modelData);
+            // console.log(this.state.modelData);
 
         } else {
             this.setState({completed});

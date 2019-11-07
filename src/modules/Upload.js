@@ -161,9 +161,9 @@ class Upload extends Component {
                                     />
                                 </Grid>
 
-                                {/* <Grid sm={4}>
+                                <Grid sm={4}>
                                     <img
-                                        src="image-placeholder.jpg"
+                                        src="orange_kitchen.EH.057.jpg"
                                         alt="upload-img"
                                         className={classes.image}
                                         ref={this.imageRef}
@@ -179,7 +179,7 @@ class Upload extends Component {
                                         ref={this.imageRef}
                                         onClick={this.handleImageClick}
                                     />
-                                </Grid> */}
+                                </Grid>
                             </Grid>
                         </Container>
 

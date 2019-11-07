@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
     },
     appBar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
-        backgroundColor: '#fabe58'
+        backgroundColor: '#fabe58',
+        zIndex: 99,
     },
     toolbar: {
         flexWrap: 'wrap',

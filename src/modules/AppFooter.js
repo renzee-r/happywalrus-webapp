@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     backgroundColor: '#fabe58',
+    zIndex: 99,
   },
   container: {
     marginTop: theme.spacing(4),
@@ -59,8 +60,8 @@ export default function AppFooter() {
   const classes = useStyles();
 
   return (
-    <Typography component="footer" className={classes.root}>
-      <Container className={classes.container}>
+    <section className={classes.root}> 
+        <Container className={classes.container}>
         <Grid container spacing={4}>
             <Grid sm={4} className={classes.copyright}>
                 <Copyright/>
@@ -100,6 +101,6 @@ export default function AppFooter() {
             </Grid>
         </Grid>
       </Container>
-    </Typography>
+    </section>
   );
 }
