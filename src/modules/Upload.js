@@ -4,10 +4,11 @@ import {
     Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from '@material-ui/core';
 import { 
-    BrowserRouter as Router, Switch, Route, Link as RouterLink 
+    BrowserRouter as Router, Switch, Route, Link as RouterLink, Redirect, useHistory, withRouter
 } from "react-router-dom";
 import Publish from '@material-ui/icons/Publish';
 import { withStyles } from '@material-ui/core/styles';
+import { compose } from 'recompose';
 
 
 const styles = theme => ({
@@ -44,10 +45,28 @@ const styles = theme => ({
     },
     image: {
         height: 150,
+    },
+    input: {
+        display: 'none',
     }
 });
 
 const RefLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
+
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
+        if ((encoded.length % 4) > 0) {
+          encoded += '='.repeat(4 - (encoded.length % 4));
+        }
+        resolve(encoded);
+      };
+      reader.onerror = error => reject(error);
+    });
+  }
 
 class Upload extends Component {
 
@@ -57,9 +76,11 @@ class Upload extends Component {
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleImageClick = this.handleImageClick.bind(this);
+        this.handleImageUpload = this.handleImageUpload.bind(this);
 
         this.state = {isOpen: false};
         this.imageRef = React.createRef();
+        this.fileInput = React.createRef();
     }
 
     handleClickOpen() {
@@ -78,6 +99,14 @@ class Upload extends Component {
         console.log(this.imageRef);
         this.imageRef.current.style.border = 'none';
         e.target.style.border = 'solid';
+    }
+
+    handleImageUpload(e, data) {
+        // console.log(this.fileInput.current.files[0]);
+        this.props.history.push({
+            pathname: '/analyzing',
+            state: { fileInput: this.fileInput.current.files[0] }
+          })
     }
 
     render() {
@@ -130,10 +159,26 @@ class Upload extends Component {
                             </Grid>
 
                             <Grid item md={12} align="center" className={classes.gridItemButton}>
-                                <Button variant="contained" color="primary" size="large" onClick={this.handleClickOpen} className={classes.button}>
+                                {/* <Button variant="contained" color="primary" size="large" onClick={this.handleClickOpen} className={classes.button}>
                                     <Publish fontSize="large" className={classes.icon}/>
                                     Upload
-                                </Button>
+                                </Button> */}
+
+                                <input
+                                    accept="image/*"
+                                    className={classes.input}
+                                    id="fileInput"
+                                    multiple
+                                    type="file"
+                                    onChange={(this.handleImageUpload)}
+                                    ref={this.fileInput}
+                                />
+                                <label htmlFor="fileInput">
+                                    <Button variant="contained" color="primary" size="large" component="span" className={classes.button}>
+                                    <Publish fontSize="large" className={classes.icon}/>
+                                    Upload
+                                    </Button>
+                                </label>
                             </Grid>
                         </Grid>
                     </Container>
@@ -201,4 +246,7 @@ class Upload extends Component {
    
 }
 
-export default withStyles(styles)(Upload)
+export default compose(
+    withRouter,
+    withStyles(styles)
+)(Upload)

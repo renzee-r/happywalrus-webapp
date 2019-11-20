@@ -5,7 +5,7 @@ import {
     Switch, Drawer
 } from '@material-ui/core';
 import { 
-    Link as RouterLink 
+    Link as RouterLink, withRouter
 } from "react-router-dom";
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -14,6 +14,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon  from '@material-ui/icons/Close';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import { compose } from 'recompose';
+
+
 const styles = theme => ({
     root: {
         color: theme.palette.common.white,
@@ -42,9 +45,6 @@ const styles = theme => ({
     },
     demoCanvas: {
         height: '90%',
-    //     backgroundImage: 'url(orange_kitchen.EH.057-orig.jpg)',
-    //     backgroundRepeat: 'no-repeat',
-    //     backgroundSize: '1600px 800px',
     },
     demoImage: {
         display: 'none',
@@ -119,7 +119,7 @@ class ImageAssessment extends Component {
         
         this.handleClose = this.handleClose.bind(this);
         this.handleCheckChange = this.handleCheckChange.bind(this);
-        this.handleExpansionOnClick = this.handleExpansionOnClick.bind(this);
+        this.handleExpansionOnChange = this.handleExpansionOnChange.bind(this);
 
         this.state = {
             isOpen: true,
@@ -127,50 +127,38 @@ class ImageAssessment extends Component {
             isLoading: true,
             modelData: null,
         }
+
+        this.hazardRefs = [];
     }
 
     componentDidMount() {
-        const canvas = this.refs.canvas
-        const ctx = canvas.getContext('2d');
-
         this.setState({ isLoading: true });
+    }
 
-        fetch("/hazards")
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    modelData: data,
-                    isLoading: false,
-                });
-                console.log(this.state.modelData);
+    componentDidUpdate(prevProps) {
+        if (this.props && this.state.isLoading) {
 
+            console.log(this.props.location.state.modelData);
+            const canvas = this.refs.canvas
+            const ctx = canvas.getContext('2d');
+
+            var reader = new FileReader();
+            reader.onload = (event) => {
                 var img = new Image();
-                img.src = 'orange_kitchen.EH.057-orig.jpg';
                 img.onload = () => {
-                    ctx.drawImage(img, 0, 0, 1600, 900);
-
                     const canvWidth = 1600;
                     const canvHeight = 900;
-                    const originalImgWidth = 800;
-                    const originalImgHeight = 600;
 
-                    this.state.modelData.forEach(function(pred) {
-                        pred['boxes'].forEach(function(box) {
-                            var minX = box[0] * canvWidth / originalImgWidth;
-                            var minY = box[1] * canvHeight / originalImgHeight;
-                            var width = (box[2] * canvWidth / originalImgWidth) - minX;
-                            var height = (box[3] * canvHeight / originalImgHeight) - minY;
-                            ctx.beginPath();
-                            ctx.strokeStyle = "#96281b";
-                            ctx.shadowColor = "white";
-                            ctx.lineWidth = 10;
-                            ctx.rect(minX, minY, width, height);
-                            ctx.stroke();
-                        })
-                    })
-                } 
+                    ctx.drawImage(img, 0, 0, canvWidth, canvHeight);
+                }
+                img.src = event.target.result;
             }
-        );
+            reader.readAsDataURL(this.props.location.state.fileInput); 
+
+            this.setState({
+                isLoading: false,
+            });
+        }
     }
 
     handleClose() {
@@ -185,109 +173,57 @@ class ImageAssessment extends Component {
         }))
     }
     
-    handleExpansionOnClick = () => {
-        console.log('test');
+    handleExpansionOnChange = hazardPanel => (event, expanded) => {
+        this.setState(state => ({
+            expandedPanel: expanded ? hazardPanel : ''
+        }))
+
+        const canvas = this.refs.canvas
+        const ctx = canvas.getContext('2d');
+        var reader = new FileReader();
+        reader.onload = (event) => {
+            var img = new Image();
+            img.onload = () => {
+                const canvWidth = 1600;
+                const canvHeight = 900;
+
+                ctx.drawImage(img, 0, 0, canvWidth, canvHeight);
+
+                if (expanded) {
+                    this.props.location.state.modelData.forEach(function(hazardCategory) {
+                        if (hazardCategory['category'] === hazardPanel) {
+                            hazardCategory['objects'].forEach(function(object) {
+                                var box = object['box'];
+
+                                var minX = box[1] * canvWidth;
+                                var minY = box[2] * canvHeight;
+                                var width = (box[3]* canvWidth) - minX;
+                                var height = (box[0] * canvHeight) - minY;
+                                ctx.beginPath();
+                                ctx.strokeStyle = "#96281b";
+                                ctx.shadowColor = "black";
+                                ctx.shadowOffsetX = 1;
+                                ctx.shadowOffsetY = 1;     
+                                ctx.shadowBlur = 5;
+                                ctx.lineWidth = 6;
+                                ctx.rect(minX, minY, width, height);
+                                ctx.stroke();
+                            })
+                        }
+                    })
+                }
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(this.props.location.state.fileInput); 
+
+        
     }
 
 
     render() {
         const { classes } = this.props
         const { modelData, isLoading , isOpen, isChecked } = this.state
-        // console.log(this.state.modelData.file_name)
-
-        let riskPanel;
-
-        if (isLoading) {
-            riskPanel = 
-                <Fragment>
-                    <Divider />
-                    <ExpansionPanel>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                        >
-                            Loading...
-                        </ExpansionPanelSummary>
-                    </ExpansionPanel>
-                </Fragment>;
-        } else {
-            riskPanel = 
-                <Fragment>
-                    {this.state.modelData.map(function(pred) {
-                        return <Fragment>
-                            <Divider />
-                            <ExpansionPanel>
-                                <ExpansionPanelSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                    // onclick={this.handleExpansionOnClick}
-                                >
-                                    <Typography variant="h6" className={classes.heading}>{pred['category']}</Typography>
-                                </ExpansionPanelSummary>
-
-                                <ExpansionPanelDetails>
-                                    <Grid container spacing={1}>
-                                        <Grid item xs={4}>
-                                            <Typography>
-                                                Risk Object(s):
-                                            </Typography>
-                                        </Grid>
-
-                                        <Grid item xs={8}>
-                                            <Typography>
-                                                {pred['name']}
-                                            </Typography>
-                                        </Grid>
-
-                                        <Grid item xs={4}>
-                                            <Typography>
-                                                Risk Description:
-                                            </Typography>
-                                        </Grid>
-
-                                        <Grid item xs={8}>
-                                            <Typography>
-                                                {pred['description']}
-                                            </Typography>
-                                        </Grid>
-
-                                        <Grid item xs={4}>
-                                            <Typography>
-                                                Recommended Solutions:
-                                            </Typography>
-                                        </Grid>
-
-                                        <Grid item xs={8}>
-                                            <Typography>
-                                                {pred['solution']}
-                                            </Typography>
-                                        </Grid>
-
-
-                                        <Grid item xs={12}>
-                                            <FormControlLabel
-                                                control={
-                                                <Switch
-                                                    checked={false}
-                                                    // onChange={this.handleCheckChange}
-                                                    value="checkedB"
-                                                    color="primary"
-                                                />
-                                                }
-                                                label="Not Resolved"
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                
-                                </ExpansionPanelDetails>
-
-                            </ExpansionPanel>
-                        </Fragment>;
-                    })}
-                </Fragment>;
-        }
 
         return (
         
@@ -302,52 +238,144 @@ class ImageAssessment extends Component {
                 >
                     <div className={classes.toolbar} />
 
-                    {riskPanel}
+                    { this.state.isLoading ?
+                        <Fragment>
+                            <Divider />
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    Loading...
+                                </ExpansionPanelSummary>
+                            </ExpansionPanel>
+                        </Fragment>
+                        :
+                        <Fragment>
+                            {this.props.location.state.modelData.map((hazardCategory) => {
+                                this.hazardRefs[hazardCategory['category']] = React.createRef();
+
+                                return <Fragment>
+                                    <Divider />
+                                    <ExpansionPanel
+                                        expanded={this.state.expandedPanel === hazardCategory['category']}
+                                        onChange={this.handleExpansionOnChange(hazardCategory['category'])}
+                                        >
+                                        <ExpansionPanelSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography variant="h6" className={classes.heading}>{hazardCategory['category']}</Typography>
+                                        </ExpansionPanelSummary>
+
+                                        <ExpansionPanelDetails>
+                                            <Grid container spacing={1}>
+                                                <Grid item xs={4}>
+                                                    <Typography>
+                                                        Risk Object(s):
+                                                    </Typography>
+                                                </Grid>
+
+                                                <Grid item xs={8}>
+                                                    <Typography>
+                                                        {hazardCategory['objects'].map((hazardObject) => {
+                                                            return <li>{hazardObject['name']}</li>
+                                                        })}
+                                                    </Typography>
+                                                </Grid>
+
+                                                <Grid item xs={4}>
+                                                    <Typography>
+                                                        Risk Description:
+                                                    </Typography>
+                                                </Grid>
+
+                                                <Grid item xs={8}>
+                                                    <Typography>
+                                                        {hazardCategory['description']}
+                                                    </Typography>
+                                                </Grid>
+
+                                                <Grid item xs={4}>
+                                                    <Typography>
+                                                        Recommended Solutions:
+                                                    </Typography>
+                                                </Grid>
+
+                                                <Grid item xs={8}>
+                                                    <Typography>
+                                                        {hazardCategory['solution']}
+                                                    </Typography>
+                                                </Grid>
+
+
+                                                <Grid item xs={12}>
+                                                    <FormControlLabel
+                                                        control={
+                                                        <Switch
+                                                            checked={false}
+                                                            // onChange={this.handleCheckChange}
+                                                            value="checkedB"
+                                                            color="primary"
+                                                        />
+                                                        }
+                                                        label="Not Resolved"
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                        
+                                        </ExpansionPanelDetails>
+
+                                    </ExpansionPanel>
+                                </Fragment>;
+                            })}
+                        </Fragment>
+                    }
                     
                 </Drawer>
 
-                {/* <main> */}
-                    <Grid container direction="column" justify='center' alignItems='center' className={classes.container}>
-                        {/* <div className={classes.item} > */}
-                            <canvas ref='canvas' height={900} width={1600} className={classes.demoCanvas}/>
-                        {/* </div> */}
-                    </Grid>
-                    <Snackbar
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                        }}
-                        open={this.state.isOpen}
-                        // onClose={this.handleClose}
-                    >
-                        <SnackbarContent
-                            className={classes.snackbar}
-                            aria-describedby="client-snackbar"
-                            message={
-                                <Typography variant='h6' id="message-id">
-                                    Have a Moment?
-                                    <Link href='https://www.surveymonkey.com/r/ZVST7JP' target="_blank" underline='always' className={classes.snackbarLink}>
-                                        Please take this quick survey!
-                                    </Link>
-                                </Typography>
-                            }
-                            action={[
-                                <IconButton
-                                    key="close"
-                                    aria-label="close"
-                                    color="inherit"
-                                    className={classes.close}
-                                    onClick={this.handleClose}
-                                >
-                                    <CloseIcon />
-                                </IconButton>,
-                            ]}
-                            />
-                    </Snackbar>
-                {/* </main> */}
+                <Grid container direction="column" justify='center' alignItems='center' className={classes.container}>
+                    <canvas ref='canvas' height={900} width={1600} className={classes.demoCanvas}/>
+                </Grid>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    open={this.state.isOpen}
+                >
+                    <SnackbarContent
+                        className={classes.snackbar}
+                        aria-describedby="client-snackbar"
+                        message={
+                            <Typography variant='h6' id="message-id">
+                                Have a Moment?
+                                <Link href='https://www.surveymonkey.com/r/ZVST7JP' target="_blank" underline='always' className={classes.snackbarLink}>
+                                    Please take this quick survey!
+                                </Link>
+                            </Typography>
+                        }
+                        action={[
+                            <IconButton
+                                key="close"
+                                aria-label="close"
+                                color="inherit"
+                                className={classes.close}
+                                onClick={this.handleClose}
+                            >
+                                <CloseIcon />
+                            </IconButton>,
+                        ]}
+                        />
+                </Snackbar>
             </section>
         )
     }
 }
 
-export default withStyles(styles)(ImageAssessment)
+export default compose(
+    withRouter,
+    withStyles(styles)
+)(ImageAssessment)

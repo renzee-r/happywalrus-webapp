@@ -1,13 +1,12 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component} from 'react';
 import {
-    Button, Container, CssBaseline, Grid, LinearProgress, Typography
+    Container, CssBaseline, Grid, LinearProgress, Typography
 } from '@material-ui/core';
 import { 
     withRouter
 } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
-import {PythonShell} from 'python-shell';
 
 const styles = theme => ({
     root: {
@@ -43,6 +42,16 @@ const styles = theme => ({
     }
 });
 
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+  
+
 class Analyzing extends Component {
 
     constructor(props) {
@@ -55,15 +64,24 @@ class Analyzing extends Component {
     }
 
     componentDidMount() {
-        fetch("/hazards")
-            .then(response => response.json())
-            .then(data => this.setState({
-                modelData: data
-            })
-        );
+        this.timer = setTimeout(() => this.progress(10), 1000);
 
+        getBase64(this.props.location.state.fileInput)
+            .then(fileData => {
+                fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ file : fileData})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({
+                        modelData: data
+                    })
+                })
 
-        this.timer = setTimeout(() => this.progress(90), 1000);
+            });
+       
     }
 
     componentWillUnmount() {
@@ -72,9 +90,13 @@ class Analyzing extends Component {
 
     progress(completed) {
         if (completed > 100) {
-            this.props.history.push('/image-assessment');
-            this.setState({completed: 100});
-            // console.log(this.state.modelData);
+            this.props.history.push( {
+                pathname: '/image-assessment',
+                state: { 
+                    fileInput: this.props.location.state.fileInput,
+                    modelData: this.state.modelData
+                }
+            });
 
         } else {
             this.setState({completed});
