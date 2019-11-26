@@ -68,7 +68,8 @@ class Analyzing extends Component {
 
         getBase64(this.props.location.state.fileInput)
             .then(fileData => {
-                fetch('/predict', {
+                // fetch('http://localhost:5000/predict', {
+                fetch('http://35.239.77.217/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ file : fileData})
@@ -78,7 +79,19 @@ class Analyzing extends Component {
                     this.setState({
                         modelData: data
                     })
+                    console.log(data)
                 })
+                .then(() => {
+                    this.props.history.push( {
+                        pathname: '/image-assessment',
+                        state: { 
+                            fileInput: this.props.location.state.fileInput,
+                            modelData: this.state.modelData
+                        }
+                    });
+                })
+
+                // console.log(fileData)
 
             });
        
@@ -137,7 +150,7 @@ class Analyzing extends Component {
                             The walruses are hard at work!
                         </Typography>
                         <div>
-                            <LinearProgress variant="determinate" value={this.state.completed} className={classes.progress}/>
+                            <LinearProgress className={classes.progress}/>
                         </div>
                     </Container>
                 </section>

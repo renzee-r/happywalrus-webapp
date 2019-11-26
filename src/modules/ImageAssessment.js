@@ -34,6 +34,7 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        // backgroundColor: '#fde3a7',
     },
     item: {
         display: 'flex',
@@ -200,7 +201,7 @@ class ImageAssessment extends Component {
                                 var width = (box[3]* canvWidth) - minX;
                                 var height = (box[0] * canvHeight) - minY;
                                 ctx.beginPath();
-                                ctx.strokeStyle = "#96281b";
+                                ctx.strokeStyle = "#f0ff00";
                                 ctx.shadowColor = "black";
                                 ctx.shadowOffsetX = 1;
                                 ctx.shadowOffsetY = 1;     
