@@ -5,6 +5,7 @@ FROM node:10
 WORKDIR /app
 
 COPY . ./
+COPY react-scripts.webpack.config.js app/node_modules/react-scripts/config/webpack.config.js
 
 RUN yarn
 RUN yarn build
