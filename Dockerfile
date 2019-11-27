@@ -6,16 +6,16 @@ FROM node:alpine as builder
 WORKDIR '/app'
 
 #Copy the dependencies file
-COPY . .
+COPY package.json .
 
 #Install dependencies
-RUN yarn
+RUN npm install
 
 #Copy remaining files
 COPY . .
 
 #Build the project for production
-RUN yarn build
+RUN npm run build 
 
 # Update config to link gsap packages
 COPY react-scripts.webpack.config.js app/build/node_modules/react-scripts/config/webpack.config.js
