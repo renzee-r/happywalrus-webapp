@@ -67,33 +67,33 @@ class Analyzing extends Component {
         this.timer = setTimeout(() => this.progress(10), 1000);
 
         getBase64(this.props.location.state.fileInput)
-            .then(fileData => {
-                // fetch('http://localhost:5000/predict', {
-                fetch('http://35.239.77.217/predict', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ file : fileData})
+        .then(fileData => {
+            // fetch('http://localhost:5000/predict', {
+            fetch('http://35.239.77.217/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ file : fileData})
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    modelData: data
                 })
-                .then(response => response.json())
-                .then(data => {
-                    this.setState({
-                        modelData: data
-                    })
-                    console.log(data)
-                })
-                .then(() => {
-                    this.props.history.push( {
-                        pathname: '/image-assessment',
-                        state: { 
-                            fileInput: this.props.location.state.fileInput,
-                            modelData: this.state.modelData
-                        }
-                    });
-                })
+                console.log(data)
+            })
+            .then(() => {
+                this.props.history.push( {
+                    pathname: '/image-assessment',
+                    state: { 
+                        fileInput: this.props.location.state.fileInput,
+                        modelData: this.state.modelData
+                    }
+                });
+            })
 
-                // console.log(fileData)
+            // console.log(fileData)
 
-            });
+        });
        
     }
 

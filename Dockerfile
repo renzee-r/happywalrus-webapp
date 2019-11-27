@@ -1,16 +1,27 @@
-# base image
-FROM node:10
+# Build
+#Specify a base image
+FROM node:alpine as builder 
 
-# set working directory
-WORKDIR /app
+#Specify a working directory
+WORKDIR '/app'
 
-COPY . ./
+#Copy the dependencies file
+COPY . .
 
+#Install dependencies
 RUN yarn
-RUN yarn build
 
 # Update config to link gsap packages
 COPY react-scripts.webpack.config.js app/node_modules/react-scripts/config/webpack.config.js
 
-# start app
-CMD ["yarn", "start"]
+#Build the project for production
+RUN yarn build
+
+# Deploy
+FROM nginx:1.17
+
+COPY --from=builder /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

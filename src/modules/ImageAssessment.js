@@ -121,6 +121,7 @@ class ImageAssessment extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleCheckChange = this.handleCheckChange.bind(this);
         this.handleExpansionOnChange = this.handleExpansionOnChange.bind(this);
+        this.AmazonEmbededCode = this.AmazonEmbededCode.bind(this);
 
         this.state = {
             isOpen: true,
@@ -134,6 +135,16 @@ class ImageAssessment extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
+
+        // const amzScript = document.createElement("script");
+        // amzScript.src = "//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US";
+        // //amzScript.innerHTML = 'amzn_assoc_placement = "adunit0"; amzn_assoc_tracking_id = "nmohan-20"; amzn_assoc_ad_mode = "search"; amzn_assoc_ad_type = "smart"; amzn_assoc_marketplace = "amazon"; amzn_assoc_region = "US"; amzn_assoc_default_search_phrase = "Child proofing oven lock"; amzn_assoc_default_category = "All"; amzn_assoc_linkid = "6230a931290cde1fd2783d68cc2f5353"; amzn_assoc_search_bar = "true"; amzn_assoc_search_bar_position = "top"; amzn_assoc_title = "Shop Related Products";'
+        // amzScript.async = true;
+        // document.body.appendChild(amzScript);
+
+        // 
+        // <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
+
     }
 
     componentDidUpdate(prevProps) {
@@ -221,10 +232,43 @@ class ImageAssessment extends Component {
         
     }
 
+    AmazonEmbededCode() {
+        var amzn_assoc_placement = "adunit0";
+        var amzn_assoc_tracking_id = "nmohan-20";
+        var amzn_assoc_ad_mode = "search";
+        var amzn_assoc_ad_type = "smart";
+        var amzn_assoc_marketplace = "amazon";
+        var amzn_assoc_region = "US";
+        var amzn_assoc_default_search_phrase = "Child proofing oven lock";
+        var amzn_assoc_default_category = "All";
+        var amzn_assoc_linkid = "6230a931290cde1fd2783d68cc2f5353";
+        var amzn_assoc_search_bar = "true";
+        var amzn_assoc_search_bar_position = "top";
+        var amzn_assoc_title = "Shop Related Products";
+    }
+
 
     render() {
         const { classes } = this.props
         const { modelData, isLoading , isOpen, isChecked } = this.state
+
+        let amazonCode = <React.Fragment>
+            <script type="text/javascript">
+                amzn_assoc_placement = "adunit0";
+                amzn_assoc_tracking_id = "nmohan-20";
+                amzn_assoc_ad_mode = "search";
+                amzn_assoc_ad_type = "smart";
+                amzn_assoc_marketplace = "amazon";
+                amzn_assoc_region = "US";
+                amzn_assoc_default_search_phrase = "Child proofing oven lock";
+                amzn_assoc_default_category = "All";
+                amzn_assoc_linkid = "6230a931290cde1fd2783d68cc2f5353";
+                amzn_assoc_search_bar = "true";
+                amzn_assoc_search_bar_position = "top";
+                amzn_assoc_title = "Shop Related Products";
+            </script>
+            <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
+            </React.Fragment>
 
         return (
         
@@ -301,7 +345,7 @@ class ImageAssessment extends Component {
 
                                                 <Grid item xs={4}>
                                                     <Typography>
-                                                        Recommended Solutions:
+                                                        Recommended Solution(s):
                                                     </Typography>
                                                 </Grid>
 
@@ -309,6 +353,9 @@ class ImageAssessment extends Component {
                                                     <Typography>
                                                         {hazardCategory['solution']}
                                                     </Typography>
+                                                    {/* <div className="amazon-div" onLoad={this.AmazonEmbededCode()}>
+                                                        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
+                                                    </div> */}
                                                 </Grid>
 
 
