@@ -11,11 +11,14 @@ COPY . .
 #Install dependencies
 RUN yarn
 
-# Update config to link gsap packages
-COPY react-scripts.webpack.config.js app/node_modules/react-scripts/config/webpack.config.js
+#Copy remaining files
+COPY . .
 
 #Build the project for production
 RUN yarn build
+
+# Update config to link gsap packages
+COPY react-scripts.webpack.config.js app/build/node_modules/react-scripts/config/webpack.config.js
 
 # Deploy
 FROM nginx:1.17
