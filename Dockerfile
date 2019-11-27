@@ -14,6 +14,9 @@ RUN npm install
 #Copy remaining files
 COPY . .
 
+# Update config to link gsap packages
+COPY react-scripts.webpack.config.js app/node_modules/react-scripts/config/webpack.config.js
+
 #Build the project for production
 RUN npm run build 
 
