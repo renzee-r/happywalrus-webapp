@@ -26,7 +26,13 @@
 # Deploy
 FROM nginx:1.17
 
-COPY build /usr/share/nginx/html
+#Specify a working directory
+WORKDIR '/app'
+
+# #Copy files
+COPY . .
+
+COPY /app/build/ /usr/share/nginx/html
 
 EXPOSE 80
 
