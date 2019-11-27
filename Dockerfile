@@ -1,38 +1,31 @@
 # # Build
 # #Specify a base image
-# FROM node:alpine as builder 
+FROM node:alpine as builder 
 
 # #Specify a working directory
-# WORKDIR '/app'
+WORKDIR '/app'
 
 # #Copy the dependencies file
-# COPY package.json .
+COPY package.json .
 
 # #Install dependencies
-# RUN npm install
+RUN npm install
 
 # #Copy remaining files
-# COPY . .
+COPY . .
 
 # # Update config to link gsap packages
-# COPY react-scripts.webpack.config.js app/node_modules/react-scripts/config/webpack.config.js
+COPY react-scripts.webpack.config.js node_modules/react-scripts/config/webpack.config.js
+
+#RUN cat app/node_modules/react-scripts/config/webpack.config.js
 
 # #Build the project for production
-# RUN npm run build 
-
-# # Update config to link gsap packages
-# COPY react-scripts.webpack.config.js app/build/node_modules/react-scripts/config/webpack.config.js
+RUN npm run build 
 
 # Deploy
 FROM nginx:1.17
 
-#Specify a working directory
-WORKDIR '/app'
-
-# #Copy files
-COPY . .
-
-COPY /app/build/ /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
 
 EXPOSE 80
 

@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: happywalrus
+  labels:
+    name: happywalrus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: happywalrus
+  template:
+    metadata:
+      name: happywalrus
+      labels:
+        name: happywalrus
+    spec:
+      containers:
+        - name: happywalrus
+          image: gcr.io/happy-walrus/react-app:v1
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: 1Gi
+            limits:
+              memory: 2Gi
+          env:
+            - name: DEBUG_MODE
+              value: "1"
