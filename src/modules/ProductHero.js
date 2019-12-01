@@ -17,7 +17,7 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        height: '85vh',
+        height: '99vh',
         minHeight: 500,
         overflowX: 'hidden',
         overflowY: 'hidden',
@@ -29,7 +29,7 @@ const styles = theme => ({
     },
     heroContent: {
         paddingTop: '25vh',
-        width: '35vw',
+        width: '60vw',
     },
 
     parallaxParent: {
@@ -87,21 +87,21 @@ class ProductHero extends Component {
 
         return (
             <React.Fragment>
+
                 <CssBaseline />
                 
-
                 <section className={classes.root}>
                     <div id="scrollStarts"></div>
 
                     <div id="myElement" className={classes.parallaxParent}>
                         <div className={classes.parallaxChild}>
-                            <Container maxWidth="sm" className={classes.container}>
+                            <Container maxWidth="lg" className={classes.container}>
                                 <Fade timeout={1000} in={true}>
                                     <div className={classes.heroContent}>
                                         <Typography align="center" variant="h2" color="textPrimary" gutterBottom> 
                                             A Little Perspective Changes Everything
                                         </Typography>
-                                        <Typography variant="subtitle1" align="center" color="textPrimary" paragraph>
+                                        <Typography variant="h5" align="center" color="textPrimary" paragraph>
                                             Making your home a safe space for your new baby can be challenging. You have enough on your plate! Let HappyWalrus help make babyproofing fast and easy.
                                         </Typography>
                                         <div className={classes.heroButtons}>

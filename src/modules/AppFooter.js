@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Grid, Link, Container, TextField, Typography, 
+    Grid, Link, Container, TextField, Typography, CssBaseline 
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -20,7 +20,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     backgroundColor: '#fabe58',
-    zIndex: 99,
+    zIndex: 0,
+    height: '11vh',
   },
   container: {
     marginTop: theme.spacing(4),
@@ -50,10 +51,6 @@ const LANGUAGES = [
     code: 'en-US',
     name: 'English',
   },
-  {
-    code: 'fr-FR',
-    name: 'Français',
-  },
 ];
 
 export default function AppFooter() {
@@ -61,6 +58,7 @@ export default function AppFooter() {
 
   return (
     <section className={classes.root}> 
+        <CssBaseline />
         <Container className={classes.container}>
         <Grid container spacing={4}>
             <Grid sm={4} className={classes.copyright}>
