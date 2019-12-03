@@ -18,7 +18,7 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         height: '99vh',
-        minHeight: 500,
+        minHeight: 800,
         overflowX: 'hidden',
         overflowY: 'hidden',
     },
@@ -28,8 +28,8 @@ const styles = theme => ({
         alignItems: 'center',
     },
     heroContent: {
-        paddingTop: '25vh',
-        width: '60vw',
+        paddingTop: '22.5vh',
+        width: '50vw',
     },
 
     parallaxParent: {
@@ -37,9 +37,9 @@ const styles = theme => ({
         width: '100%',
     },
     parallaxChild: {
-        height: '150%',
+        height: '110vh',
         position: 'relative',
-        top: '-50%',
+        top: '-35vh',
         backgroundImage: `url('hero-bg-1.png')`,
         backgroundSize: 'cover',
     },
@@ -99,10 +99,10 @@ class ProductHero extends Component {
                                 <Fade timeout={1000} in={true}>
                                     <div className={classes.heroContent}>
                                         <Typography align="center" variant="h2" color="textPrimary" gutterBottom> 
-                                            A Little Perspective Changes Everything
+                                            Babyproofing Made Simple, For Everyone
                                         </Typography>
                                         <Typography variant="h5" align="center" color="textPrimary" paragraph>
-                                            Making your home a safe space for your new baby can be challenging. You have enough on your plate! Let HappyWalrus help make babyproofing fast and easy.
+                                            HappyWalrus highlights common kitchen hazards from images you upload. We provide parents timely and relevant insights that may need to be remediated to prevent childhood injuries. The aim is to to reduce the rate of injury in children ages 0-4. Currently there are ~1.4 million emergency department visits per year in the US. Let HappyWalrus make babyproofing fast and easy!
                                         </Typography>
                                         <div className={classes.heroButtons}>
                                             <Grid container justify="center">

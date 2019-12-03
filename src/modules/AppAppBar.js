@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
         backgroundColor: '#fabe58',
-        height: '6.5vh',
+        minHeight: '6.5vh',
+        // height: '6.5vh',
         zIndex: 99,
     },
     toolbar: {
@@ -83,9 +84,9 @@ export default function AppAppBar(props) {
                                 </Link>
                             </nav>
 
-                            <Button color="primary" variant="outlined" className={classes.link}>
+                            {/* <Button color="primary" variant="outlined" className={classes.link}>
                                 Login
-                            </Button>
+                            </Button> */}
 
                             {/* <Button color="secondary" variant="outlined" className={classes.link}>
                                 Sign Up

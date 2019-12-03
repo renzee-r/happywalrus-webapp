@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(14),
     },
     demoImage: {
-        height: '50vh'
+        height: '45vh'
     },
     image: {
         height: 55,
@@ -58,7 +58,7 @@ export default function ProductHowItWorks() {
                         <Grid item xs={12} md={8}>
                             <div className={classes.item}>
                                 <img
-                                    src="ADE_train_00000598.jpg"
+                                    src="how-it-works.png"
                                     alt="kitchen-demo"
                                     className={classes.demoImage}
                                 />

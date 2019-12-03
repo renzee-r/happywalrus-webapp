@@ -1,12 +1,11 @@
 cp react-scripts.webpack.config.js node_modules/react-scripts/config/webpack.config.js
 
- docker build -t sample:dev .
-
- gcloud container clusters get-credentials standard-cluster-1 --zone us-central1-a --project happy-walrus
-
- gcloud builds --project happy-walrus submit --tag gcr.io/happy-walrus/react-app:v1 .
-
- 
-kubectl set image deployment/nginx nginx=gcr.io/happy-walrus/flask-app:v1
+docker build -t sample:dev .
 
 kubectl expose deployment nginx --type=LoadBalancer --port 80 --target-port 8080
+
+gcloud container clusters get-credentials standard-cluster-1 --zone us-central1-a --project happy-walrus
+
+gcloud builds --project happy-walrus submit --tag gcr.io/happy-walrus/react-app:v2 .
+ 
+kubectl set image deployment/happywalrus happywalrus=gcr.io/happy-walrus/react-app:v2

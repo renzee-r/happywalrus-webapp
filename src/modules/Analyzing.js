@@ -50,6 +50,15 @@ function getBase64(file) {
       reader.onerror = error => reject(error);
     });
   }
+
+function timeout(ms, promise) {
+    return new Promise(function(resolve, reject) {
+        setTimeout(function() {
+            reject(new Error("timeout"))
+        }, ms)
+        promise.then(resolve, reject)
+    })
+}
   
 
 class Analyzing extends Component {
@@ -64,16 +73,15 @@ class Analyzing extends Component {
     }
 
     componentDidMount() {
-        this.timer = setTimeout(() => this.progress(10), 1000);
 
         getBase64(this.props.location.state.fileInput)
         .then(fileData => {
-            // fetch('http://localhost:5000/predict', {
-            fetch('http://35.239.77.217/predict', {
+            // timeout(100000, fetch('http://localhost:5000/predict', {
+            timeout(100000, fetch('http://35.239.77.217/predict', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ file : fileData})
-            })
+            }))
             .then(response => response.json())
             .then(data => {
                 this.setState({
@@ -98,25 +106,7 @@ class Analyzing extends Component {
     }
 
     componentWillUnmount() {
-        clearTimeout(this.timer);
     }
-
-    progress(completed) {
-        if (completed > 100) {
-            this.props.history.push( {
-                pathname: '/image-assessment',
-                state: { 
-                    fileInput: this.props.location.state.fileInput,
-                    modelData: this.state.modelData
-                }
-            });
-
-        } else {
-            this.setState({completed});
-            const diff = Math.random() * 10;
-            this.timer = setTimeout(() => this.progress(completed + diff), 1000);
-        }
-     }
 
     render() {
         const { classes } = this.props;

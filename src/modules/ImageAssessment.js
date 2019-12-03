@@ -21,8 +21,8 @@ import Divider from '@material-ui/core/Divider';
 import { compose } from 'recompose';
 // import EmojiEmotions from '@material-ui/icons/EmojiEmotions';
 
-const canvasWidth = 1600;
-const canvasHeight = 900;
+// var canvasWidth = 1600;
+// var canvasHeight = 900;
 const canvasOffset = 100;
 
 const styles = theme => ({
@@ -39,21 +39,29 @@ const styles = theme => ({
     container: {
         // margin: theme.spacing(8),
         // // marginBottom: theme.spacing(14),
-        // height: '83vh',
+        height: '100%',
+        width: 'calc(100% - 450px)',
+        marginLeft: 450,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        position: 'relative',
+        position: 'absolute',
         // backgroundColor: '#fde3a7',
     },
     containerCanvas: {
         // height: '90%',
     },
     containerSvg: {
-        position: 'absolute',
+        position: 'relative',
+        // marginLeft: 480,
+        // backgroundImage: `url('hero-bg-1.png')`,
+        // backgroundSize: 'cover'
+        height: '100%',
+        width: '100%',
     },
-    svgGroup: {
-
+    svgImage: {
+        // height: '100%',
+        // width: '100%',
     },
     boundingBox: {
         // animation: `draw 5s linear forwards`,
@@ -69,13 +77,13 @@ const styles = theme => ({
         marginLeft: theme.spacing(1),
     },
     drawer: {
-        width: 480,
         flexShrink: 0,
         zIndex: 0,
     },
     drawerPaper: {
         marginTop: '6vh',
-        width: 480,
+        minWidth: 450,
+        width: 450,
         height: "82.5vh",
     },
     noHazardContainer: {
@@ -139,6 +147,9 @@ class ImageAssessment extends Component {
         this.objectOnMouseLeave = this.objectOnMouseLeave.bind(this);
         this.handleStatusChange = this.handleStatusChange.bind(this);
 
+        this.imageRef = React.createRef();
+        this.svgRef = React.createRef();
+
         this.state = {
             isOpen: true,
             isChecked: false,
@@ -148,34 +159,61 @@ class ImageAssessment extends Component {
             hoveredObject: '',
             statuses: {},
             objectStatus: 'Unresolved',
+            imageSrc: null,
+            canvasWidth: 0,
+            canvasHeight: 0
         }
     }
 
     componentDidMount() {
         this.setState({ isLoading: true });
+
+        this.updateDimensions();
+        window.addEventListener("resize", this.updateDimensions.bind(this));
     }
 
     componentDidUpdate(prevProps) {
         if (this.props && this.state.isLoading) {
-
             console.log(this.props.location.state.modelData);
-            const canvas = this.refs.canvas
-            const ctx = canvas.getContext('2d');
+            // const canvas = this.refs.canvas
+            // const ctx = canvas.getContext('2d');
 
             var reader = new FileReader();
             reader.onload = (event) => {
-                var img = new Image();
-                img.onload = () => {
+                // var img = new Image();
+                // img.onload = () => {
 
-                    ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
-                }
-                img.src = event.target.result;
+                //     ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+                // }
+                // img.src = event.target.result;
+                this.setState({
+                    imageSrc: event.target.result
+                })
             }
             reader.readAsDataURL(this.props.location.state.fileInput); 
 
             this.setState({
                 isLoading: false,
             });
+        }
+
+        // if (this.imageRef.current) {
+        //     console.log(this.imageRef.current.offsetWidth)
+        //     canvasWidth = this.imageRef.current.clientWidth
+        //     canvasHeight = this.imageRef.current.clientHeight
+        // }
+    }
+
+    updateDimensions() {
+        if (this.svgRef.current) {
+            this.setState({
+                canvasWidth: this.svgRef.current.width.baseVal.value,
+                canvasHeight: this.svgRef.current.height.baseVal.value,
+            })
+        }
+
+        if (this.imageRef.current) {
+            console.log(this.imageRef.current)
         }
     }
 
@@ -210,8 +248,8 @@ class ImageAssessment extends Component {
     }
 
     handleStatusChange = hazardObject => event => {
-        console.log(hazardObject);
-        console.log(event.target.value);
+        // console.log(hazardObject);
+        // console.log(event.target.value);
         const { statuses } = this.state;
         const newStatus = {
           ...statuses,
@@ -334,10 +372,10 @@ class ImageAssessment extends Component {
                                                             </Typography>
 
                                                             <List dense={true}>
-                                                                {hazardCategory['objects'].map((hazardObject, i) => {
+                                                                {hazardCategory['description'].map((hazardDescription, i) => {
                                                                     return <ListItem>
                                                                     <ListItemText
-                                                                        primary={'Hazard Description ' + (i + 1)}
+                                                                        primary={hazardDescription}
                                                                     />
                                                                     </ListItem>
                                                                 })}
@@ -350,26 +388,32 @@ class ImageAssessment extends Component {
                                                             </Typography>
                                                             
                                                             <List dense={true}>
-                                                                {hazardCategory['objects'].map((hazardObject, i) => {
+                                                                {hazardCategory['solution'].map((hazardSolution, i) => {
                                                                     return <ListItem>
                                                                     <ListItemText
-                                                                        primary={'Amazon Link ' + (i + 1)}
+                                                                        primary={hazardSolution}
                                                                     />
                                                                     </ListItem>
                                                                 })}
                                                             </List>
                                                         </Grid>
 
-                                                        {/* <Grid item xs={8}>
-                                                            <Typography>
-                                                                {hazardCategory['solution']}
+                                                        <Grid item xs={12}>
+                                                            <Typography variant='h6'>
+                                                                Recommended Product(s):
                                                             </Typography>
-                                                            <div className="amazon-div" onLoad={this.AmazonEmbededCode()}>
-                                                                <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
-                                                            </div>
-                                                            <div id="amazon-search"></div>
-                                                            <div id="amazon-adunit"></div>
-                                                        </Grid> */}
+                                                            
+                                                            <List dense={true}>
+                                                                {hazardCategory['product'].map((hazardProduct, i) => {
+                                                                    return <ListItem>
+                                                                    <Link target="_blank" href={hazardProduct[1]}>
+                                                                        {hazardProduct[0]}
+                                                                    </Link>
+                                                                    
+                                                                    </ListItem>
+                                                                })}
+                                                            </List>
+                                                        </Grid>
 
 
                                                         {/* <Grid item xs={12}>
@@ -408,9 +452,9 @@ class ImageAssessment extends Component {
                 </Drawer>
 
                 <Grid container direction="column" justify='center' alignItems='center' className={classes.container}>
-                    <canvas ref='canvas' width={canvasWidth} height={canvasHeight}  className={classes.containerCanvas}/>
+                    {/* <canvas ref='canvas' width={canvasWidth} height={canvasHeight}  className={classes.containerCanvas}/> */}
 
-                    <svg width={canvasWidth + canvasOffset} height={canvasHeight} className={classes.containerSvg}>
+                    <svg className={classes.containerSvg} ref={this.svgRef}>
                         <defs>
                             <filter id="shadow">
                                 <feDropShadow/>
@@ -419,13 +463,15 @@ class ImageAssessment extends Component {
 
                         { !this.state.isLoading &&
                             <Fragment>
+                                <image href={this.state.imageSrc} ref={this.imageRef} x={canvasOffset/2} width={this.state.canvasWidth - canvasOffset} height={this.state.canvasHeight} preserveAspectRatio='none' className={classes.svgImage}></image>
+
                                 {this.props.location.state.modelData.map((hazardCategory) => {
                                     return hazardCategory['objects'].map((hazardObject, i) => {
                                         var box = hazardObject['box'];
-                                        var minX = box[1] * canvasWidth;
-                                        var minY = box[0] * canvasHeight;
-                                        var width = (box[3]* canvasWidth) - minX;
-                                        var height = (box[2] * canvasHeight) - minY;
+                                        var minX = box[1] * (this.state.canvasWidth - canvasOffset);
+                                        var minY = box[0] * this.state.canvasHeight;
+                                        var width = (box[3] * (this.state.canvasWidth - canvasOffset)) - minX;
+                                        var height = (box[2] * this.state.canvasHeight) - minY;
 
                                         
                                         return <g 
@@ -439,7 +485,7 @@ class ImageAssessment extends Component {
                                                 height={height}
                                                 filter="url(#shadow)"
                                                 rx="10" 
-                                                visibility={this.state.expandedPanel === hazardCategory['category'] ? 'visible' : 'hidden'}
+                                                visibility={this.state.expandedPanel != hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
                                                 stroke={this.state.hoveredObject === hazardCategory['category'] + i ? '#f0ff00' : 'transparent'} 
                                                 fill="transparent" 
                                                 strokeWidth="5"
@@ -450,12 +496,12 @@ class ImageAssessment extends Component {
                                             <circle 
                                                 cx={minX - 10 + (canvasOffset/2)} 
                                                 cy={minY - 15} 
-                                                r="30" 
+                                                r="25" 
                                                 // stroke="red" 
                                                 // strokeWidth='4'
                                                 // filter="url(#shadow)"
                                                 fill='#f0ff00'
-                                                visibility={this.state.expandedPanel === hazardCategory['category'] ? 'visible' : 'hidden'}
+                                                visibility={this.state.expandedPanel != hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
                                             />
 
                                             <text 
@@ -465,7 +511,7 @@ class ImageAssessment extends Component {
                                                 fill="black"
                                                 fontSize='44px'
                                                 fontWeight='bold'
-                                                visibility={this.state.expandedPanel === hazardCategory['category'] ? 'visible' : 'hidden'}
+                                                visibility={this.state.expandedPanel != hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
                                                 >
                                                     !
                                             </text>
