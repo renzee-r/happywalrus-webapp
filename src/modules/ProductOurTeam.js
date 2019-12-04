@@ -52,7 +52,11 @@ export default function ProductOurTeam() {
                                 Our Team
                             </Typography>
                             <Typography variant="h5">
-                                We are a team of students at the University of California, Berkeley in the Master of Information and Data Science program.
+                                The Happy Walrus team (Errett Hobbs, Nach Mohan, Ramiro Cadavid, and Renzee Jan Reyes) is composed of graduating Master of Information and Data Science students (MIDS) from the UC Berkeley School of Information.
+                            </Typography>
+                            <br/>
+                            <Typography variant="h5">
+                                Happy Walrus is our capstone project and evolved from our experience as parents. We’re thrilled to share it and hope it helps makes your home safer for your little pinniped!
                             </Typography>
                             </div>
                         </Grid>
@@ -72,9 +76,12 @@ export default function ProductOurTeam() {
 
                                     <ListItemText
                                         primary='Errett Hobbs'
-                                        secondary='errett@berkeley.edu'
+                                        secondary={<div>
+                                            <div>errett@berkeley.edu</div>
+                                            <div>https://www.linkedin.com/in/errett-hobbs/</div>
+                                          </div>}
                                     />
-                                </ListItem>
+                                </ListItem>  
 
                                 <ListItem>
                                     <ListItemAvatar>
@@ -85,7 +92,10 @@ export default function ProductOurTeam() {
 
                                     <ListItemText
                                         primary='Nach Mohan'
-                                        secondary='nach.mohan@berkeley.edu'
+                                        secondary={<div>
+                                            <div>nach.mohan@berkeley.edu</div>
+                                            <div>https://www.linkedin.com/in/nach-mohan-81035414/</div>
+                                          </div>}
                                     />
                                 </ListItem>
 
@@ -98,7 +108,10 @@ export default function ProductOurTeam() {
 
                                     <ListItemText
                                         primary='Ramiro Cadavid'
-                                        secondary='rcadavid@berkeley.edu'
+                                        secondary={<div>
+                                            <div>rcadavid@berkeley.edu</div>
+                                            <div>https://www.linkedin.com/in/ramirocadavid/</div>
+                                          </div>}
                                     />
                                 </ListItem>
 
@@ -111,7 +124,10 @@ export default function ProductOurTeam() {
 
                                     <ListItemText
                                         primary='Renzee Reyes'
-                                        secondary='renzeer@berkeley.edu'
+                                        secondary={<div>
+                                            <div>renzeer@berkeley.edu</div>
+                                            <div>https://www.linkedin.com/in/renzeer/</div>
+                                          </div>}
                                     />
                                 </ListItem>
                             </List>

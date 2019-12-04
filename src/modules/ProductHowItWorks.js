@@ -66,7 +66,11 @@ export default function ProductHowItWorks() {
                                     How it works
                                 </Typography>
                                 <Typography variant="h5" align="center">
-                                    HappyWalrus uses state of the art techniques in computer vision, a subfield of machine learning and aritifical intelligence. Over thousands of images and tens of thousands of objects, we have trained a model that can understand digital images in similar ways as human vision. This trained model can now look at new images and identify the objects it was trained to identify.
+                                    Happy Walrus employs a form artificial intelligence called object recognition to identify kitchen hazards in user photos. We trained the underlying object recognitionmodel by feeding a computer thousands of images within which we had marked tens of thousands of objects (e.g., countertops, ovens, stovetops). 
+                                </Typography>
+                                <br/>
+                                <Typography variant='h5' align='center'>
+                                    Once trained, we can pass any kitchen image to the model, and it will quickly highlight objects that we have taught it to “see”.
                                 </Typography>
                             </div>
                         </Grid>
