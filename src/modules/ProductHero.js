@@ -99,10 +99,10 @@ class ProductHero extends Component {
                                 <Fade timeout={1000} in={true}>
                                     <div className={classes.heroContent}>
                                         <Typography align="center" variant="h2" color="textPrimary" gutterBottom> 
-                                            Babyproofing Made Simple, For Everyone
+                                            HappyWalrus makes babyproofing your kitchen fast and easy!
                                         </Typography>
                                         <Typography variant="h5" align="center" color="textPrimary" paragraph>
-                                            HappyWalrus highlights common kitchen hazards from images you upload. We provide parents timely and relevant insights that may need to be remediated to prevent childhood injuries. The aim is to to reduce the rate of injury in children ages 0-4. Currently there are ~1.4 million emergency department visits per year in the US. Let HappyWalrus make babyproofing fast and easy!
+                                            Babyproofing’s a huge chore, but children ages 0-4 are hurt at home more than anywhere else. HappyWalrus highlights kitchen hazards in photos and tells you how you can babyproof your home.
                                         </Typography>
                                         <div className={classes.heroButtons}>
                                             <Grid container justify="center">

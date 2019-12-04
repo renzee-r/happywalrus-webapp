@@ -2,9 +2,6 @@ import React from 'react';
 import {
     Container, Grid, Typography
 } from '@material-ui/core';
-import {
-    ChildFriendly
-} from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -12,23 +9,21 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         backgroundColor: '#f0f0d6',
         overflow: 'hidden',
+        height: '65vh',
     },
     container: {
+        position: 'relative',
+        alignItems: 'center',
         marginTop: theme.spacing(10),
         marginBottom: theme.spacing(15),
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
     },
     item: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: theme.spacing(0, 5),
     },
     title: {
-        marginBottom: theme.spacing(14),
+        marginBottom: theme.spacing(4),
     },
     demoImage: {
         height: '45vh'
@@ -51,11 +46,10 @@ export default function ProductHowItWorks() {
 
     return (
         <section className={classes.root}>
-            <Container className={classes.container}>
 
-                <div>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={8}>
+                <div >
+                    <Grid container spacing={0} className={classes.container}>
+                        <Grid item xs={12} md={7}>
                             <div className={classes.item}>
                                 <img
                                     src="how-it-works.png"
@@ -67,19 +61,18 @@ export default function ProductHowItWorks() {
 
                         <Grid item xs={12} md={4}>
                             <div className={classes.item}>
-                                <ChildFriendly fontSize="large" className={classes.image} />
+                                {/* <ChildFriendly fontSize="large" className={classes.image} /> */}
                                 <Typography variant="h4" marked="center" className={classes.title} component="h2">
                                     How it works
                                 </Typography>
                                 <Typography variant="h5" align="center">
-                                    Description of computer vision, tech stack, and data science techniques.
+                                    HappyWalrus uses state of the art techniques in computer vision, a subfield of machine learning and aritifical intelligence. Over thousands of images and tens of thousands of objects, we have trained a model that can understand digital images in similar ways as human vision. This trained model can now look at new images and identify the objects it was trained to identify.
                                 </Typography>
-                                            </div>
+                            </div>
                         </Grid>
 
                     </Grid>
                 </div>
-            </Container>
         </section>
     );
 }

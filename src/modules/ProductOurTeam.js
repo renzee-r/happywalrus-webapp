@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-    Container, CssBaseline, Grid, Typography, 
+    Container, CssBaseline, Grid, Typography, ListItemAvatar, 
+    List, ListItem, ListItemText, Avatar
 } from '@material-ui/core';
 import EmojiEmotions from '@material-ui/icons/EmojiEmotions';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,25 +48,73 @@ export default function ProductOurTeam() {
 
                         <Grid item md={6}>
                             <div className={classes.item}>
-                            <EmojiEmotions fontSize="large" className={classes.image}/>
-                            <Typography variant="h6" className={classes.title}>
-                                Team Description
+                            <Typography variant="h4" className={classes.title}>
+                                Our Team
                             </Typography>
                             <Typography variant="h5">
-                                Team description goes here.
+                                We are a team of students at the University of California, Berkeley in the Master of Information and Data Science program.
                             </Typography>
                             </div>
                         </Grid>
 
                         <Grid item md={6}>
                             <div className={classes.item}>
-                            <EmojiEmotions fontSize="large" className={classes.image}/>
-                            <Typography variant="h6" className={classes.title}>
-                                Member Description
+                            <Typography variant="h4" className={classes.title}>
+                                Team Members
                             </Typography>
-                            <Typography variant="h5">
-                                Member description goes here.
-                            </Typography>
+                            <List>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            EH
+                                        </Avatar>
+                                    </ListItemAvatar>
+
+                                    <ListItemText
+                                        primary='Errett Hobbs'
+                                        secondary='errett@berkeley.edu'
+                                    />
+                                </ListItem>
+
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            NM
+                                        </Avatar>
+                                    </ListItemAvatar>
+
+                                    <ListItemText
+                                        primary='Nach Mohan'
+                                        secondary='nach.mohan@berkeley.edu'
+                                    />
+                                </ListItem>
+
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            RC
+                                        </Avatar>
+                                    </ListItemAvatar>
+
+                                    <ListItemText
+                                        primary='Ramiro Cadavid'
+                                        secondary='rcadavid@berkeley.edu'
+                                    />
+                                </ListItem>
+
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            RR
+                                        </Avatar>
+                                    </ListItemAvatar>
+
+                                    <ListItemText
+                                        primary='Renzee Reyes'
+                                        secondary='renzeer@berkeley.edu'
+                                    />
+                                </ListItem>
+                            </List>
                             </div>
                         </Grid>
                         

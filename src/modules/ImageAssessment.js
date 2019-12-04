@@ -1,21 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import {
-    Grid, Typography, 
-    Snackbar, SnackbarContent, IconButton, Link, FormControlLabel,
-    Switch, Drawer, CssBaseline, List, ListItem, ListItemText, ListItemAvatar, 
-    ListItemSecondaryAction, ListItemIcon, FormControl, InputLabel, Select,
+    Grid, Typography, Snackbar, SnackbarContent, IconButton, Link, Drawer, CssBaseline,
+    List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, InputLabel, Select,
     MenuItem
 } from '@material-ui/core';
 import { 
-    Link as RouterLink, withRouter
+    withRouter
 } from "react-router-dom";
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon  from '@material-ui/icons/Close';
-import DoneIcon  from '@material-ui/icons/Done';
-import ClearIcon  from '@material-ui/icons/Clear';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import { compose } from 'recompose';
@@ -23,7 +19,26 @@ import { compose } from 'recompose';
 
 // var canvasWidth = 1600;
 // var canvasHeight = 900;
-const canvasOffset = 100;
+const canvasOffset = 50;
+const generalRecs = {
+    'objects': ['Trash Cans',
+                'Cords',
+                'Appliances',
+                'Fragile Items',
+                'Small Choking Hazards'],
+    
+    'description': ['When your baby starts moving, it is time to baby proof! Your kitchen can be a dangerous place for a curious crawler or walker.'],
+    
+    'solution': ['Don’t let kids by themselves in kitchen, keep them in your view always.',
+                'Keep dangerous items up high.',
+                'Secure/fix freestanding cabinets to wall.',
+                'Unplug appliances.',
+                'Remove or safely store sharp objects.',
+                'Turn off or lock garbage disposal.',
+                'Secure trash can.'],
+
+    'product': [['Baby Proofing Kit', 'https://www.amazon.com/gp/search?ie=UTF8&tag=nmohan-20&linkCode=ur2&linkId=6ce109af2f2c50a710775d459627ff9d&camp=1789&creative=9325&index=aps&keywords=Baby proofing kit']]
+}
 
 const styles = theme => ({
     root: {
@@ -90,8 +105,6 @@ const styles = theme => ({
         marginTop: 10,
     }
 });
-
-const RefLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
 
 const ExpansionPanel = withStyles({
     root: {
@@ -174,7 +187,7 @@ class ImageAssessment extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props && this.state.isLoading) {
-            console.log(this.props.location.state.modelData);
+            // console.log(this.props.location.state.modelData);
             // const canvas = this.refs.canvas
             // const ctx = canvas.getContext('2d');
 
@@ -191,6 +204,13 @@ class ImageAssessment extends Component {
                 })
             }
             reader.readAsDataURL(this.props.location.state.fileInput); 
+
+            if (this.state.expandedPanel === '') {
+                this.setState({
+                    expandedPanel: this.props.location.state.modelData[0]['category']
+                })
+            }
+
 
             this.setState({
                 isLoading: false,
@@ -210,10 +230,6 @@ class ImageAssessment extends Component {
                 canvasWidth: this.svgRef.current.width.baseVal.value,
                 canvasHeight: this.svgRef.current.height.baseVal.value,
             })
-        }
-
-        if (this.imageRef.current) {
-            console.log(this.imageRef.current)
         }
     }
 
@@ -260,7 +276,6 @@ class ImageAssessment extends Component {
 
     render() {
         const { classes } = this.props
-        const { modelData, isLoading , isOpen, isChecked } = this.state
 
         return (
         
@@ -293,14 +308,8 @@ class ImageAssessment extends Component {
                         <Fragment>
                             {this.props.location.state.modelData.length > 0 ?
                                 <Fragment>
-                                    {this.props.location.state.modelData.map((hazardCategory) => {
-                                        if (this.state.expandedPanel === '') {
-                                            this.setState({
-                                                expandedPanel: hazardCategory['category']
-                                            })
-                                        }
-
-                                        return <Fragment>
+                                    {this.props.location.state.modelData.map((hazardCategory, i) => {
+                                        return <Fragment key={i}>
                                             <Divider />
                                             <ExpansionPanel
                                                 expanded={this.state.expandedPanel === hazardCategory['category']}
@@ -326,7 +335,8 @@ class ImageAssessment extends Component {
                                                                     return <ListItem 
                                                                         selected={this.state.hoveredObject === hazardCategory['category'] + i}
                                                                         onMouseEnter={this.objectOnMouseEnter(hazardCategory['category'] + i)}
-                                                                        onMouseLeave={this.objectOnMouseLeave}>
+                                                                        onMouseLeave={this.objectOnMouseLeave}
+                                                                        key={hazardCategory['category'] + i}>
 
                                                                     <ListItemAvatar className={classes.itemAvatar}>
                                                                         <Typography variant='h4'>
@@ -373,7 +383,7 @@ class ImageAssessment extends Component {
 
                                                             <List dense={true}>
                                                                 {hazardCategory['description'].map((hazardDescription, i) => {
-                                                                    return <ListItem>
+                                                                    return <ListItem key={i}>
                                                                     <ListItemText
                                                                         primary={hazardDescription}
                                                                     />
@@ -389,7 +399,7 @@ class ImageAssessment extends Component {
                                                             
                                                             <List dense={true}>
                                                                 {hazardCategory['solution'].map((hazardSolution, i) => {
-                                                                    return <ListItem>
+                                                                    return <ListItem key={i}>
                                                                     <ListItemText
                                                                         primary={hazardSolution}
                                                                     />
@@ -405,7 +415,7 @@ class ImageAssessment extends Component {
                                                             
                                                             <List dense={true}>
                                                                 {hazardCategory['product'].map((hazardProduct, i) => {
-                                                                    return <ListItem>
+                                                                    return <ListItem key={i}>
                                                                     <Link target="_blank" href={hazardProduct[1]}>
                                                                         {hazardProduct[0]}
                                                                     </Link>
@@ -414,21 +424,6 @@ class ImageAssessment extends Component {
                                                                 })}
                                                             </List>
                                                         </Grid>
-
-
-                                                        {/* <Grid item xs={12}>
-                                                            <FormControlLabel
-                                                                control={
-                                                                <Switch
-                                                                    checked={false}
-                                                                    // onChange={this.handleCheckChange}
-                                                                    value="checkedB"
-                                                                    color="primary"
-                                                                />
-                                                                }
-                                                                label="Not Resolved"
-                                                            />
-                                                        </Grid> */}
                                                     </Grid>
                                                 
                                                 </ExpansionPanelDetails>
@@ -446,6 +441,92 @@ class ImageAssessment extends Component {
                                     </Grid>
                                 </Fragment>
                             }
+
+                            <Divider />
+                            <ExpansionPanel
+                                expanded={this.state.expandedPanel === 'General Recommendations'}
+                                onChange={this.handleExpansionOnChange('General Recommendations')}
+                                >
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography variant="h6" className={classes.heading}>General Recommendations</Typography>
+                                </ExpansionPanelSummary>
+
+                                <ExpansionPanelDetails>
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={12}>                                                      
+                                            <Typography variant='h6'>
+                                                Hazardous Object(s):
+                                            </Typography>
+
+                                            <List>
+                                                {generalRecs['objects'].map((hazardObject, i) => {
+                                                    return <ListItem 
+                                                        key={'General Recommendations' + i}>
+                                                    <ListItemText
+                                                        primary={hazardObject}
+                                                    />
+                                                    </ListItem>
+                                                })}
+                                            </List>
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <Typography variant='h6'>
+                                                Hazard Description:
+                                            </Typography>
+
+                                            <List dense={true}>
+                                                {generalRecs['description'].map((hazardDescription, i) => {
+                                                    return <ListItem key={i}>
+                                                    <ListItemText
+                                                        primary={hazardDescription}
+                                                    />
+                                                    </ListItem>
+                                                })}
+                                            </List>
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <Typography variant='h6'>
+                                                Recommended Solution(s):
+                                            </Typography>
+                                            
+                                            <List dense={true}>
+                                                {generalRecs['solution'].map((hazardSolution, i) => {
+                                                    return <ListItem key={i}>
+                                                    <ListItemText
+                                                        primary={hazardSolution}
+                                                    />
+                                                    </ListItem>
+                                                })}
+                                            </List>
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <Typography variant='h6'>
+                                                Recommended Product(s):
+                                            </Typography>
+                                            
+                                            <List dense={true}>
+                                                {generalRecs['product'].map((hazardProduct, i) => {
+                                                    return <ListItem key={i}>
+                                                    <Link target="_blank" href={hazardProduct[1]}>
+                                                        {hazardProduct[0]}
+                                                    </Link>
+                                                    
+                                                    </ListItem>
+                                                })}
+                                            </List>
+                                        </Grid>
+                                    </Grid>
+                                
+                                </ExpansionPanelDetails>
+
+                            </ExpansionPanel>
                         </Fragment>
                     }
 
@@ -477,7 +558,8 @@ class ImageAssessment extends Component {
                                         return <g 
                                                 onMouseEnter={this.objectOnMouseEnter(hazardCategory['category'] + i)}
                                                 onMouseLeave={this.objectOnMouseLeave}
-                                                className={classes.svgGroup} >
+                                                className={classes.svgGroup} 
+                                                key={hazardCategory['category'] + i}>
                                             <rect 
                                                 x={minX + (canvasOffset/2)} 
                                                 y={minY}
@@ -485,7 +567,7 @@ class ImageAssessment extends Component {
                                                 height={height}
                                                 filter="url(#shadow)"
                                                 rx="10" 
-                                                visibility={this.state.expandedPanel != hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
+                                                visibility={this.state.expandedPanel !== hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
                                                 stroke={this.state.hoveredObject === hazardCategory['category'] + i ? '#f0ff00' : 'transparent'} 
                                                 fill="transparent" 
                                                 strokeWidth="5"
@@ -501,7 +583,7 @@ class ImageAssessment extends Component {
                                                 // strokeWidth='4'
                                                 // filter="url(#shadow)"
                                                 fill='#f0ff00'
-                                                visibility={this.state.expandedPanel != hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
+                                                visibility={this.state.expandedPanel !== hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
                                             />
 
                                             <text 
@@ -511,7 +593,7 @@ class ImageAssessment extends Component {
                                                 fill="black"
                                                 fontSize='44px'
                                                 fontWeight='bold'
-                                                visibility={this.state.expandedPanel != hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
+                                                visibility={this.state.expandedPanel !== hazardCategory['category'] || this.state.statuses[hazardCategory['category'] + i] === 'Invalid' ? 'hidden' : 'visible'}
                                                 >
                                                     !
                                             </text>

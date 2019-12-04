@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
     Button, Container, CssBaseline, Grid, Typography, 
-    Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
+    Dialog, DialogTitle, DialogContent, DialogActions
 } from '@material-ui/core';
 import { 
-    BrowserRouter as Router, Switch, Route, Link as RouterLink, Redirect, useHistory, withRouter
+    Link as RouterLink, withRouter
 } from "react-router-dom";
 import Publish from '@material-ui/icons/Publish';
 import { withStyles } from '@material-ui/core/styles';
@@ -17,9 +17,9 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         // alignItems: 'center',
-        height: '90vh',
-        minHeight: 500,
-        maxHeight: 1300,
+        height: '89vh',
+        // minHeight: 500,
+        // maxHeight: 1300,
     },
     container: {
         marginTop: theme.spacing(3),
@@ -52,21 +52,6 @@ const styles = theme => ({
 });
 
 const RefLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
-
-function getBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
-        if ((encoded.length % 4) > 0) {
-          encoded += '='.repeat(4 - (encoded.length % 4));
-        }
-        resolve(encoded);
-      };
-      reader.onerror = error => reject(error);
-    });
-  }
 
 class Upload extends Component {
 

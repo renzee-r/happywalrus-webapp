@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import {
-    Container, CssBaseline, Grid, LinearProgress, Typography
+    Container, CssBaseline, LinearProgress, Typography
 } from '@material-ui/core';
 import { 
     withRouter
@@ -14,11 +14,10 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        [theme.breakpoints.up('lg')]: {
-          height: '90vh',
-          minHeight: 500,
-          maxHeight: 1300,
-        },
+        height: '89vh',
+        minHeight: 500,
+        maxHeight: 1300,
+        
     },
     container: {
         marginTop: theme.spacing(3),
@@ -87,7 +86,7 @@ class Analyzing extends Component {
                 this.setState({
                     modelData: data
                 })
-                console.log(data)
+                // console.log(data)
             })
             .then(() => {
                 this.props.history.push( {

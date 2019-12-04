@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
 import { 
-    BrowserRouter as Router, Switch, Route, Link as RouterLink 
+    BrowserRouter as Router, Switch, Route
 } from "react-router-dom";
 import AppAppBar from './modules/AppAppBar';
 import AppFooter from './modules/AppFooter';
 import ProductHero from './modules/ProductHero';
-import ProductValues from './modules/ProductValues';
 import ProductHowItWorks from './modules/ProductHowItWorks';
 import ProductOurTeam from './modules/ProductOurTeam';
 import Upload from './modules/Upload'
@@ -37,7 +36,7 @@ export default function App() {
 
                 <Route path="/">
                     <ProductHero />
-                    <ProductValues />
+                    {/* <ProductValues /> */}
                     <ProductHowItWorks />
                     <ProductOurTeam />
                 </Route>

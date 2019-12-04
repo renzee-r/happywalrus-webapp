@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Container, CssBaseline, Grid, Typography, 
+    CssBaseline, Grid, Typography, 
 } from '@material-ui/core';
 import EmojiEmotions from '@material-ui/icons/EmojiEmotions';
 import { makeStyles } from '@material-ui/core/styles';
