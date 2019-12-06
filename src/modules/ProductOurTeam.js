@@ -1,9 +1,8 @@
 import React from 'react';
 import {
     Container, CssBaseline, Grid, Typography, ListItemAvatar, 
-    List, ListItem, ListItemText, Avatar
+    List, ListItem, ListItemText, Avatar, Link
 } from '@material-ui/core';
-import EmojiEmotions from '@material-ui/icons/EmojiEmotions';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -52,11 +51,11 @@ export default function ProductOurTeam() {
                                 Our Team
                             </Typography>
                             <Typography variant="h5">
-                                The Happy Walrus team (Errett Hobbs, Nach Mohan, Ramiro Cadavid, and Renzee Jan Reyes) is composed of graduating Master of Information and Data Science students (MIDS) from the UC Berkeley School of Information.
+                                The HappyWalrus team (Errett Hobbs, Nach Mohan, Ramiro Cadavid, and Renzee Jan Reyes) is composed of graduating Master of Information and Data Science students (MIDS) from the UC Berkeley School of Information.
                             </Typography>
                             <br/>
                             <Typography variant="h5">
-                                Happy Walrus is our capstone project and evolved from our experience as parents. We’re thrilled to share it and hope it helps makes your home safer for your little pinniped!
+                                HappyWalrus is our capstone project and evolved from our experience as parents. We’re thrilled to share it and hope it helps makes your home safer for your little pinniped!
                             </Typography>
                             </div>
                         </Grid>
@@ -77,8 +76,8 @@ export default function ProductOurTeam() {
                                     <ListItemText
                                         primary='Errett Hobbs'
                                         secondary={<div>
-                                            <div>errett@berkeley.edu</div>
-                                            <div>https://www.linkedin.com/in/errett-hobbs/</div>
+                                            <Link href='mailto: errett@berkeley.edu'>errett@berkeley.edu</Link>
+                                            <div><Link href='https://www.linkedin.com/in/errett-hobbs/'>LinkedIn</Link></div>
                                           </div>}
                                     />
                                 </ListItem>  
@@ -93,8 +92,8 @@ export default function ProductOurTeam() {
                                     <ListItemText
                                         primary='Nach Mohan'
                                         secondary={<div>
-                                            <div>nach.mohan@berkeley.edu</div>
-                                            <div>https://www.linkedin.com/in/nach-mohan-81035414/</div>
+                                            <Link href='mailto: nach.mohan@berkeley.edu'>nach.mohan@berkeley.edu</Link>
+                                            <div><Link href='https://www.linkedin.com/in/nach-mohan-81035414/'>LinkedIn</Link></div>
                                           </div>}
                                     />
                                 </ListItem>
@@ -109,8 +108,8 @@ export default function ProductOurTeam() {
                                     <ListItemText
                                         primary='Ramiro Cadavid'
                                         secondary={<div>
-                                            <div>rcadavid@berkeley.edu</div>
-                                            <div>https://www.linkedin.com/in/ramirocadavid/</div>
+                                            <Link href='mailto: rcadavid@berkeley.edu'>rcadavid@berkeley.edu</Link>
+                                            <div><Link target="_blank" href='https://www.linkedin.com/in/ramirocadavid/'>LinkedIn</Link></div>
                                           </div>}
                                     />
                                 </ListItem>
@@ -125,8 +124,8 @@ export default function ProductOurTeam() {
                                     <ListItemText
                                         primary='Renzee Reyes'
                                         secondary={<div>
-                                            <div>renzeer@berkeley.edu</div>
-                                            <div>https://www.linkedin.com/in/renzeer/</div>
+                                            <Link href='mailto: renzeer@berkeley.edu'>renzeer@berkeley.edu</Link>
+                                            <div><Link href='https://www.linkedin.com/in/renzeer/'>LinkedIn</Link></div>
                                           </div>}
                                     />
                                 </ListItem>

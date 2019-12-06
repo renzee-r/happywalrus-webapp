@@ -14,7 +14,7 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        height: '89vh',
+        height: '92vh',
         minHeight: 500,
         maxHeight: 1300,
         
@@ -75,8 +75,8 @@ class Analyzing extends Component {
 
         getBase64(this.props.location.state.fileInput)
         .then(fileData => {
-            // timeout(100000, fetch('http://localhost:5000/predict', {
-            timeout(100000, fetch('http://35.239.77.217/predict', {
+            timeout(100000, fetch('http://localhost:5000/predict', {
+            // timeout(100000, fetch('http://35.239.77.217/predict', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ file : fileData})

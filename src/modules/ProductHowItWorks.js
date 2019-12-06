@@ -1,15 +1,20 @@
 import React from 'react';
 import {
-    Container, Grid, Typography
+    Container, Grid, Typography, CssBaseline
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
+
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+const {breakpoints} = theme
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         backgroundColor: '#f0f0d6',
         overflow: 'hidden',
-        height: '65vh',
+        height: '60vh',
+        minHeight: 750,
     },
     container: {
         position: 'relative',
@@ -26,7 +31,10 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(4),
     },
     demoImage: {
-        height: '45vh'
+        height: '45vh',
+        [breakpoints.down("xs")]: {
+            height: "20vh"
+        }
     },
     image: {
         height: 55,
@@ -46,22 +54,23 @@ export default function ProductHowItWorks() {
 
     return (
         <section className={classes.root}>
+            <CssBaseline />
 
-                <div >
-                    <Grid container spacing={0} className={classes.container}>
-                        <Grid item xs={12} md={7}>
-                            <div className={classes.item}>
-                                <img
-                                    src="how-it-works.png"
-                                    alt="kitchen-demo"
-                                    className={classes.demoImage}
-                                />
-                            </div>
-                        </Grid>
+            <div>
+                <Grid container spacing={0} className={classes.container}>
+                    <Grid item xs={12} md={7}>
+                        <div className={classes.item}>
+                            <img
+                                src="how-it-works.png"
+                                alt="kitchen-demo"
+                                className={classes.demoImage}
+                            />
+                        </div>
+                    </Grid>
 
-                        <Grid item xs={12} md={4}>
-                            <div className={classes.item}>
-                                {/* <ChildFriendly fontSize="large" className={classes.image} /> */}
+                    <Grid item xs={12} md={4}>
+                        <div className={classes.item}>
+                            <ThemeProvider theme={theme}>
                                 <Typography variant="h4" marked="center" className={classes.title} component="h2">
                                     How it works
                                 </Typography>
@@ -72,11 +81,12 @@ export default function ProductHowItWorks() {
                                 <Typography variant='h5' align='center'>
                                     Once trained, we can pass any kitchen image to the model, and it will quickly highlight objects that we have taught it to “see”.
                                 </Typography>
-                            </div>
-                        </Grid>
-
+                            </ThemeProvider>
+                        </div>
                     </Grid>
-                </div>
+
+                </Grid>
+            </div>
         </section>
     );
 }

@@ -7,9 +7,11 @@ import {
     Link as RouterLink, withRouter
 } from "react-router-dom";
 import Publish from '@material-ui/icons/Publish';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme, responsiveFontSizes, ThemeProvider  } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
 
 const styles = theme => ({
     root: {
@@ -17,7 +19,7 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         // alignItems: 'center',
-        height: '89vh',
+        height: '92vh',
         // minHeight: 500,
         // maxHeight: 1300,
     },
@@ -107,7 +109,7 @@ class Upload extends Component {
                 <section className={classes.root}>
                     <Container className={classes.container}>
                         <Grid container justify="center">
-
+                            <ThemeProvider theme={theme}>
                             <Grid container justify="center" className={classes.step1}>
                                 <Grid item md={2}>
                                     <Typography align="left" variant="h4" color="textPrimary" gutterBottom> 
@@ -165,6 +167,7 @@ class Upload extends Component {
                                     </Button>
                                 </label>
                             </Grid>
+                            </ThemeProvider>
                         </Grid>
                     </Container>
                 </section>

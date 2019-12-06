@@ -12,13 +12,10 @@ import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon  from '@material-ui/icons/Close';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme, responsiveFontSizes, ThemeProvider  } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import { compose } from 'recompose';
-// import EmojiEmotions from '@material-ui/icons/EmojiEmotions';
 
-// var canvasWidth = 1600;
-// var canvasHeight = 900;
 const canvasOffset = 50;
 const generalRecs = {
     'objects': ['Trash Cans',
@@ -40,14 +37,17 @@ const generalRecs = {
     'product': [['Baby Proofing Kit', 'https://www.amazon.com/gp/search?ie=UTF8&tag=nmohan-20&linkCode=ur2&linkId=6ce109af2f2c50a710775d459627ff9d&camp=1789&creative=9325&index=aps&keywords=Baby proofing kit']]
 }
 
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+
 const styles = theme => ({
     root: {
         color: theme.palette.common.white,
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        marginTop: '6.5vh',
-        height: '82.5vh',
+        marginTop: '5.5vh',
+        height: '86.5vh',
         // minHeight: 500,
         // maxHeight: 1300,
     },
@@ -280,6 +280,7 @@ class ImageAssessment extends Component {
         return (
         
             <section className={classes.root}>
+                <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Drawer
                     className={classes.drawer}
@@ -457,6 +458,10 @@ class ImageAssessment extends Component {
 
                                 <ExpansionPanelDetails>
                                     <Grid container spacing={1}>
+                                        <Typography>
+                                            There are other hazards that HappyWalrus cannot detect just yet. Please review these general recommendations for more information.
+                                        </Typography>
+
                                         <Grid item xs={12}>                                                      
                                             <Typography variant='h6'>
                                                 Hazardous Object(s):
@@ -651,6 +656,7 @@ class ImageAssessment extends Component {
                         ]}
                         />
                 </Snackbar>
+                </ThemeProvider>
             </section>
         )
     }

@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
         backgroundColor: '#fabe58',
-        minHeight: '6.5vh',
+        minHeight: 60,
+        height: 60,
         // height: '6.5vh',
         zIndex: 99,
     },
@@ -24,7 +25,7 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     logo: {
-        height: '5vh',
+        height: 45,
     },
     link: {
         margin: theme.spacing(1, 1.5),
@@ -76,12 +77,12 @@ export default function AppAppBar(props) {
                             </Typography>
 
                             <nav>
-                                <Link variant="button" color="textPrimary" component={RefLink} to="/upload" className={classes.link}>
+                                {/* <Link variant="button" color="textPrimary" component={RefLink} to="/upload" className={classes.link}>
                                     Get Started
                                 </Link>
                                 <Link variant="button" color="textPrimary" component={RefLink} to="/about" className={classes.link}>
                                     About Us
-                                </Link>
+                                </Link> */}
                             </nav>
 
                             {/* <Button color="primary" variant="outlined" className={classes.link}>
