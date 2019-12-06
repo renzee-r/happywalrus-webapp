@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Container, Grid, Typography, CssBaseline
+    Grid, Typography, CssBaseline
 } from '@material-ui/core';
 import { makeStyles, createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     Button, Container, CssBaseline, Grid, Typography,
-    Fade, Dialog, DialogTitle, DialogContent, DialogActions, ListItem
+    Fade, Dialog, DialogContent, DialogActions
 } from '@material-ui/core';
 import { 
     Link as RouterLink 
@@ -31,10 +31,12 @@ const styles = theme => ({
         alignItems: 'center',
     },
     heroContent: {
-        paddingTop: '22.5vh',
+        paddingTop: '24.5vh',
         width: '50vw',
     },
-
+    scrollStart: {
+        height: 0
+    },
     parallaxParent: {
         height: '65vh',
         width: '100%',
@@ -42,7 +44,7 @@ const styles = theme => ({
     parallaxChild: {
         height: '110vh',
         position: 'relative',
-        top: '-35vh',
+        top: 'calc(-90% + 60px)',
         backgroundImage: `url('hero-bg-1.png')`,
         backgroundSize: 'cover',
     },
@@ -54,7 +56,7 @@ class ProductHero extends Component {
     
     constructor(props) {
         super(props);
-        this.controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter", duration: "150%"}});
+        this.controller = new ScrollMagic.Controller();
 
         this.handleDialogOpen = this.handleDialogOpen.bind(this);
         this.handleDialogClose = this.handleDialogClose.bind(this);
@@ -66,6 +68,8 @@ class ProductHero extends Component {
     componentDidMount() {
         new ScrollMagic.Scene({
             triggerElement: '#scrollStarts',
+            triggerHook: 'onEnter',
+            duration: '200%'
         })
         .setTween('#myElement', {y: '100%', ease: Linear.easeNone})
         // .addIndicators() // add indicators (requires plugin)
@@ -93,8 +97,8 @@ class ProductHero extends Component {
 
                 <CssBaseline />
                 
-                <section className={classes.root}>
-                    <div id="scrollStarts"></div>
+                <section id="scrollStarts" className={classes.root}>
+                    {/* <div id="scrollStarts" className={classes.scrollStart}></div> */}
 
                     <div id="myElement" className={classes.parallaxParent}>
                         <div className={classes.parallaxChild}>

@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import {
-    Grid, Link, Container, TextField, Typography, CssBaseline,
-    Dialog, DialogTitle, DialogContent, DialogActions, Button, ListItem
+    Grid, Link, Container, Typography, CssBaseline,
+    Dialog, DialogContent, DialogActions, Button, ListItem
 } from '@material-ui/core';
-import { withStyles, createMuiTheme } from '@material-ui/core/styles';
-
-
-let theme = createMuiTheme();
-const {breakpoints} = theme
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
@@ -15,6 +11,7 @@ const styles = theme => ({
     backgroundColor: '#fabe58',
     zIndex: 0,
     height: '8vh',
+    minHeight: '8vh',
   },
   container: {
     // marginTop: theme.spacing(3),
@@ -38,13 +35,6 @@ const styles = theme => ({
     alignItems: 'center',
   }
 });
-
-const LANGUAGES = [
-  {
-    code: 'en-US',
-    name: 'English',
-  },
-];
 
 class AppFooter extends Component {
 
@@ -94,7 +84,7 @@ class AppFooter extends Component {
                 <section className={classes.root}> 
                     <CssBaseline />
                     <Grid container>
-                        <Grid sm={11} xs={6}>
+                        <Grid item sm={11} xs={6}>
                             <div className={classes.copyright}>
                                 {'© '}
                                 <Link color="inherit" href="/">

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import {
-    Button, Container, CssBaseline, Grid, Typography, 
-    Dialog, DialogTitle, DialogContent, DialogActions
+    Button, Container, CssBaseline, Grid, Typography
 } from '@material-ui/core';
 import { 
-    Link as RouterLink, withRouter
+    withRouter
 } from "react-router-dom";
 import Publish from '@material-ui/icons/Publish';
 import { withStyles, createMuiTheme, responsiveFontSizes, ThemeProvider  } from '@material-ui/core/styles';
@@ -53,8 +52,6 @@ const styles = theme => ({
     }
 });
 
-const RefLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
-
 class Upload extends Component {
 
     constructor(props) {
@@ -65,7 +62,10 @@ class Upload extends Component {
         this.handleImageClick = this.handleImageClick.bind(this);
         this.handleImageUpload = this.handleImageUpload.bind(this);
 
-        this.state = {isOpen: false};
+        this.state = {
+            isOpen: false,
+            invalidFile: false
+        };
         this.imageRef = React.createRef();
         this.fileInput = React.createRef();
     }
@@ -89,11 +89,18 @@ class Upload extends Component {
     }
 
     handleImageUpload(e, data) {
-        // console.log(this.fileInput.current.files[0]);
-        this.props.history.push({
-            pathname: '/analyzing',
-            state: { fileInput: this.fileInput.current.files[0] }
-          })
+        console.log(this.fileInput.current.files[0]);
+
+        if (!this.fileInput.current.files[0]['type'].startsWith('image/')) {
+            this.setState({
+                invalidFile: true
+            })
+        } else {
+            this.props.history.push({
+                pathname: '/analyzing',
+                state: { fileInput: this.fileInput.current.files[0] }
+            })
+        }
     }
 
     render() {
@@ -165,69 +172,17 @@ class Upload extends Component {
                                     <Publish fontSize="large" className={classes.icon}/>
                                     Upload
                                     </Button>
+                                    {this.state.invalidFile &&
+                                        <Typography variant='subtitle1' color='error'>
+                                            *Invalid file type. Please upload a standard image format.
+                                        </Typography>
+                                    }
                                 </label>
                             </Grid>
                             </ThemeProvider>
                         </Grid>
                     </Container>
                 </section>
-
-                <Dialog
-                    fullWidth={true}
-                    maxWidth={'md'}
-                    open={this.state.isOpen}
-                    onClose={this.handleClose}
-                    aria-labelledby="dialog-title"
-                >
-                    <DialogTitle id="dialog-title">Select an Image to Upload...</DialogTitle>
-
-                    <DialogContent>
-                        <Container maxwidth="sm" className={classes.container}>
-                            <Grid container justify="center">
-                                <Grid sm={4}>
-                                    <img
-                                        src="ADE_train_00000598.jpg"
-                                        alt="upload-img"
-                                        className={classes.image}
-                                        ref={this.imageRef}
-                                        onClick={this.handleImageClick}
-                                    />
-                                </Grid>
-
-                                <Grid sm={4}>
-                                    <img
-                                        src="orange_kitchen.EH.057.jpg"
-                                        alt="upload-img"
-                                        className={classes.image}
-                                        ref={this.imageRef}
-                                        onClick={this.handleImageClick}
-                                    />
-                                </Grid>
-
-                                <Grid sm={4}>
-                                    <img
-                                        src="image-placeholder.jpg"
-                                        alt="upload-img"
-                                        className={classes.image}
-                                        ref={this.imageRef}
-                                        onClick={this.handleImageClick}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </Container>
-
-                    </DialogContent>
-
-                    <DialogActions>
-                        <Button onClick={this.handleClose} color="secondary">
-                            Cancel
-                        </Button>
-
-                        <Button component={RefLink} to="/analyzing" color="primary">
-                            Confirm
-                        </Button>
-                    </DialogActions>
-                </Dialog>
             </React.Fragment>
         )
     }

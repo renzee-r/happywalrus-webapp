@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
     Container, CssBaseline, Grid, Typography, ListItemAvatar, 
     List, ListItem, ListItemText, Avatar, Link
@@ -47,16 +47,16 @@ export default function ProductOurTeam() {
 
                         <Grid item md={6}>
                             <div className={classes.item}>
-                            <Typography variant="h4" className={classes.title}>
-                                Our Team
-                            </Typography>
-                            <Typography variant="h5">
-                                The HappyWalrus team (Errett Hobbs, Nach Mohan, Ramiro Cadavid, and Renzee Jan Reyes) is composed of graduating Master of Information and Data Science students (MIDS) from the UC Berkeley School of Information.
-                            </Typography>
-                            <br/>
-                            <Typography variant="h5">
-                                HappyWalrus is our capstone project and evolved from our experience as parents. We’re thrilled to share it and hope it helps makes your home safer for your little pinniped!
-                            </Typography>
+                                <Typography variant="h4" className={classes.title}>
+                                    Our Team
+                                </Typography>
+                                <Typography variant="h5">
+                                    The HappyWalrus team (Errett Hobbs, Nach Mohan, Ramiro Cadavid, and Renzee Jan Reyes) is composed of graduating Master of Information and Data Science students (MIDS) from the UC Berkeley School of Information.
+                                </Typography>
+                                <br/>
+                                <Typography variant="h5">
+                                    HappyWalrus is our capstone project and evolved from our experience as parents. We’re thrilled to share it and hope it helps makes your home safer for your little pinniped!
+                                </Typography>
                             </div>
                         </Grid>
 
@@ -75,10 +75,13 @@ export default function ProductOurTeam() {
 
                                     <ListItemText
                                         primary='Errett Hobbs'
-                                        secondary={<div>
+                                        secondary={
+                                            <Fragment>
                                             <Link href='mailto: errett@berkeley.edu'>errett@berkeley.edu</Link>
-                                            <div><Link href='https://www.linkedin.com/in/errett-hobbs/'>LinkedIn</Link></div>
-                                          </div>}
+                                            <br/>
+                                            <Link href='https://www.linkedin.com/in/errett-hobbs/'>LinkedIn</Link>
+                                            </Fragment>
+                                        }
                                     />
                                 </ListItem>  
 
@@ -91,10 +94,13 @@ export default function ProductOurTeam() {
 
                                     <ListItemText
                                         primary='Nach Mohan'
-                                        secondary={<div>
+                                        secondary={
+                                            <Fragment>
                                             <Link href='mailto: nach.mohan@berkeley.edu'>nach.mohan@berkeley.edu</Link>
-                                            <div><Link href='https://www.linkedin.com/in/nach-mohan-81035414/'>LinkedIn</Link></div>
-                                          </div>}
+                                            <br/>
+                                            <Link href='https://www.linkedin.com/in/nach-mohan-81035414/'>LinkedIn</Link>
+                                            </Fragment>
+                                        }
                                     />
                                 </ListItem>
 
@@ -107,10 +113,13 @@ export default function ProductOurTeam() {
 
                                     <ListItemText
                                         primary='Ramiro Cadavid'
-                                        secondary={<div>
+                                        secondary={
+                                            <Fragment>
                                             <Link href='mailto: rcadavid@berkeley.edu'>rcadavid@berkeley.edu</Link>
-                                            <div><Link target="_blank" href='https://www.linkedin.com/in/ramirocadavid/'>LinkedIn</Link></div>
-                                          </div>}
+                                            <br/>
+                                            <Link target="_blank" href='https://www.linkedin.com/in/ramirocadavid/'>LinkedIn</Link>
+                                            </Fragment>
+                                        }
                                     />
                                 </ListItem>
 
@@ -123,10 +132,13 @@ export default function ProductOurTeam() {
 
                                     <ListItemText
                                         primary='Renzee Reyes'
-                                        secondary={<div>
+                                        secondary={
+                                            <Fragment>
                                             <Link href='mailto: renzeer@berkeley.edu'>renzeer@berkeley.edu</Link>
-                                            <div><Link href='https://www.linkedin.com/in/renzeer/'>LinkedIn</Link></div>
-                                          </div>}
+                                            <br/>
+                                            <Link href='https://www.linkedin.com/in/renzeer/'>LinkedIn</Link>
+                                            </Fragment>
+                                        }
                                     />
                                 </ListItem>
                             </List>
