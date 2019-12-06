@@ -31,7 +31,7 @@ const styles = theme => ({
         alignItems: 'center',
     },
     heroContent: {
-        paddingTop: '24.5vh',
+        paddingTop: '33vh',
         width: '50vw',
     },
     scrollStart: {
@@ -44,7 +44,7 @@ const styles = theme => ({
     parallaxChild: {
         height: '110vh',
         position: 'relative',
-        top: 'calc(-90% + 60px)',
+        top: 'calc(-100% + 60px)',
         backgroundImage: `url('hero-bg-1.png')`,
         backgroundSize: 'cover',
     },
