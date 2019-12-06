@@ -14,6 +14,7 @@ import 'debug.addIndicators'
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
+const { breakpoints } = theme;
 
 const styles = theme => ({
     root: {
@@ -31,7 +32,12 @@ const styles = theme => ({
         alignItems: 'center',
     },
     heroContent: {
-        paddingTop: '33vh',
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: '20vh',
+        },
+        [theme.breakpoints.up('md')]: {
+            paddingTop: '35vh',
+        },
         width: '50vw',
     },
     scrollStart: {
