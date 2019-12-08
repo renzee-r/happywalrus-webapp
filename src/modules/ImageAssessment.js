@@ -458,7 +458,7 @@ class ImageAssessment extends Component {
 
                                 <ExpansionPanelDetails>
                                     <Grid container spacing={1}>
-                                        <Typography>
+                                        <Typography variant='body1'>
                                             There are other hazards that HappyWalrus cannot detect just yet. Please review these general recommendations for more information.
                                         </Typography>
 
@@ -472,7 +472,7 @@ class ImageAssessment extends Component {
                                                     return <ListItem 
                                                         key={'General Recommendations' + i}>
                                                     <ListItemText
-                                                        primary={hazardObject}
+                                                        primary={<Typography variant='body1'>{hazardObject}</Typography>}
                                                     />
                                                     </ListItem>
                                                 })}
@@ -488,7 +488,7 @@ class ImageAssessment extends Component {
                                                 {generalRecs['description'].map((hazardDescription, i) => {
                                                     return <ListItem key={i}>
                                                     <ListItemText
-                                                        primary={hazardDescription}
+                                                        primary={<Typography variant='body1'>{hazardDescription}</Typography>}
                                                     />
                                                     </ListItem>
                                                 })}
@@ -504,7 +504,7 @@ class ImageAssessment extends Component {
                                                 {generalRecs['solution'].map((hazardSolution, i) => {
                                                     return <ListItem key={i}>
                                                     <ListItemText
-                                                        primary={hazardSolution}
+                                                        primary={<Typography variant='body1'>{hazardSolution}</Typography>}
                                                     />
                                                     </ListItem>
                                                 })}
@@ -519,7 +519,7 @@ class ImageAssessment extends Component {
                                             <List dense={true}>
                                                 {generalRecs['product'].map((hazardProduct, i) => {
                                                     return <ListItem key={i}>
-                                                    <Link target="_blank" href={hazardProduct[1]}>
+                                                    <Link variant='body1' target="_blank" href={hazardProduct[1]}>
                                                         {hazardProduct[0]}
                                                     </Link>
                                                     
