@@ -346,7 +346,7 @@ class ImageAssessment extends Component {
                                                                     </ListItemAvatar>
 
                                                                     <ListItemText
-                                                                        primary={hazardObject['name']}
+                                                                        primary={<Typography variant='h6'>{hazardObject['name']}</Typography>}
                                                                         secondary={'Predicted with ' + Math.trunc(hazardObject['score'] * 100) + '% confidence'}
                                                                     />
 
@@ -386,7 +386,7 @@ class ImageAssessment extends Component {
                                                                 {hazardCategory['description'].map((hazardDescription, i) => {
                                                                     return <ListItem key={i}>
                                                                     <ListItemText
-                                                                        primary={hazardDescription}
+                                                                        primary={<Typography variant='body1'>{hazardDescription}</Typography>}
                                                                     />
                                                                     </ListItem>
                                                                 })}
@@ -402,7 +402,7 @@ class ImageAssessment extends Component {
                                                                 {hazardCategory['solution'].map((hazardSolution, i) => {
                                                                     return <ListItem key={i}>
                                                                     <ListItemText
-                                                                        primary={hazardSolution}
+                                                                        primary={<Typography variant='body1'>{hazardSolution}</Typography>}
                                                                     />
                                                                     </ListItem>
                                                                 })}
@@ -417,7 +417,7 @@ class ImageAssessment extends Component {
                                                             <List dense={true}>
                                                                 {hazardCategory['product'].map((hazardProduct, i) => {
                                                                     return <ListItem key={i}>
-                                                                    <Link target="_blank" href={hazardProduct[1]}>
+                                                                    <Link variant='body1' target="_blank" href={hazardProduct[1]}>
                                                                         {hazardProduct[0]}
                                                                     </Link>
                                                                     
