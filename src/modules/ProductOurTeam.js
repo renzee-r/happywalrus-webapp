@@ -45,6 +45,9 @@ const styles = theme => ({
       },
       parallaxChild: {
         height: '120vh',
+        [theme.breakpoints.down('xs')]: {
+            height: '180vh'
+        },
         width: '100%',
         top: 'calc(-55vh)',
         position: 'relative',

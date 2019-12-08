@@ -34,7 +34,7 @@ const styles = theme => ({
     },
     heroContent: {
         [theme.breakpoints.down('sm')]: {
-            marginTop: 80,
+            marginTop: 85,
         },
         [theme.breakpoints.up('md')]: {
             paddingTop: '20vh',
@@ -45,6 +45,9 @@ const styles = theme => ({
         height: '110vh',
         width: '100%',
         top: 'calc(-45vh + 60px)',
+        [theme.breakpoints.up('xs')]: {
+            top: 'calc(-50vh + 60px)',
+        },
         position: 'relative',
         backgroundImage: `url('hero-bg-1.png')`,
         backgroundSize: 'cover',

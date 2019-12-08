@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     demoImage: {
         height: '45vh',
         [breakpoints.down("sm")]: {
-            height: "30vh",
+            height: "28vh",
         }
     },
 }));
@@ -63,7 +63,7 @@ export default function ProductHowItWorks() {
                     <Grid item lg={4}>
                         <div className={classes.item}>
                             <ThemeProvider theme={theme}>
-                                <Typography variant="h4" marked="center" className={classes.title} component="h2">
+                                <Typography variant="h4" marked="center" className={classes.title}>
                                     How it works
                                 </Typography>
                                 <Typography variant="h6" align="left">
