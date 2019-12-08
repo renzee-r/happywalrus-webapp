@@ -46,7 +46,7 @@ const styles = theme => ({
         width: '100%',
         top: 'calc(-45vh + 60px)',
         [theme.breakpoints.up('xs')]: {
-            top: 'calc(-50vh + 60px)',
+            top: 'calc(-53vh + 60px)',
         },
         position: 'relative',
         backgroundImage: `url('hero-bg-1.png')`,
