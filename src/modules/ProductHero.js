@@ -21,7 +21,8 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        height: '99vh',
+        marginTop: 60,
+        height: 'calc(100vh - 145px - 20px)',
         minHeight: 900,
         overflowX: 'hidden',
         overflowY: 'hidden',
@@ -33,24 +34,18 @@ const styles = theme => ({
     },
     heroContent: {
         [theme.breakpoints.down('sm')]: {
-            paddingTop: '20vh',
+            marginTop: 80,
         },
         [theme.breakpoints.up('md')]: {
-            paddingTop: '35vh',
+            paddingTop: '20vh',
         },
         width: '50vw',
     },
-    scrollStart: {
-        height: 0
-    },
-    parallaxParent: {
-        height: '65vh',
-        width: '100%',
-    },
     parallaxChild: {
         height: '110vh',
+        width: '100%',
+        top: 'calc(-45vh + 60px)',
         position: 'relative',
-        top: 'calc(-100% + 60px)',
         backgroundImage: `url('hero-bg-1.png')`,
         backgroundSize: 'cover',
     },
@@ -77,7 +72,7 @@ class ProductHero extends Component {
             triggerHook: 'onEnter',
             duration: '200%'
         })
-        .setTween('#myElement', {y: '100%', ease: Linear.easeNone})
+        .setTween('#myElement', {y: '100vh', ease: Linear.easeNone})
         // .addIndicators() // add indicators (requires plugin)
         .addTo(this.controller); // assign the scene to the controller
     }
@@ -106,8 +101,8 @@ class ProductHero extends Component {
                 <section id="scrollStarts" className={classes.root}>
                     {/* <div id="scrollStarts" className={classes.scrollStart}></div> */}
 
-                    <div id="myElement" className={classes.parallaxParent}>
-                        <div className={classes.parallaxChild}>
+                    {/* <div  className={classes.parallaxParent}> */}
+                        <div id="myElement" className={classes.parallaxChild}>
                             <Container maxWidth="lg" className={classes.container}>
                                 <Fade timeout={1000} in={true}>
                                     <div className={classes.heroContent}>
@@ -132,7 +127,7 @@ class ProductHero extends Component {
                                 </Fade>
                             </Container>
                         </div>
-                    </div>
+                    {/* </div> */}
                 </section>
 
                 <Dialog

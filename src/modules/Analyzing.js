@@ -14,10 +14,9 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        height: '92vh',
-        minHeight: 500,
-        maxHeight: 1300,
-        
+        marginTop: 60,
+        height: 'calc(100vh - 145px)',
+        minHeight: 500,        
     },
     container: {
         marginTop: theme.spacing(3),

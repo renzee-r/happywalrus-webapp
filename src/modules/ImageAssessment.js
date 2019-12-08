@@ -46,8 +46,8 @@ const styles = theme => ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        marginTop: '5.5vh',
-        height: '86.5vh',
+        marginTop: 60,
+        height: 'calc(100vh - 145px)',
         // minHeight: 500,
         // maxHeight: 1300,
     },
@@ -96,10 +96,10 @@ const styles = theme => ({
         zIndex: 0,
     },
     drawerPaper: {
-        marginTop: '6vh',
+        marginTop: 60,
         minWidth: 450,
         width: 450,
-        height: "82.5vh",
+        height: 'calc(100vh - 145px)'
     },
     noHazardContainer: {
         marginTop: 10,

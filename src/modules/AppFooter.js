@@ -10,8 +10,8 @@ const styles = theme => ({
     display: 'flex',
     backgroundColor: '#fabe58',
     zIndex: 0,
-    height: '8vh',
-    minHeight: '8vh',
+    height: 85,
+    minHeight: 85,
   },
   container: {
     // marginTop: theme.spacing(3),

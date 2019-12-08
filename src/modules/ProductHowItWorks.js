@@ -13,8 +13,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         backgroundColor: '#f0f0d6',
         overflow: 'hidden',
-        height: '60vh',
-        minHeight: 750,
+        height: 650,
+        [theme.breakpoints.down('md')]: {
+            height: 900
+        }
     },
     container: {
         position: 'relative',
@@ -26,26 +28,16 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        margin: theme.spacing(2)
     },
     title: {
         marginBottom: theme.spacing(4),
     },
     demoImage: {
         height: '45vh',
-        [breakpoints.down("xs")]: {
-            height: "20vh"
+        [breakpoints.down("sm")]: {
+            height: "30vh",
         }
-    },
-    image: {
-        height: 55,
-        marginTop: theme.spacing(12),
-        marginBottom: theme.spacing(4),
-    },
-    curvyLines: {
-        pointerEvents: 'none',
-        position: 'absolute',
-        top: -180,
-        opacity: 0.7,
     },
 }));
 
@@ -58,7 +50,7 @@ export default function ProductHowItWorks() {
 
             <div>
                 <Grid container spacing={0} className={classes.container}>
-                    <Grid item xs={12} md={7}>
+                    <Grid item md={12} lg={7}>
                         <div className={classes.item}>
                             <img
                                 src="how-it-works.png"
@@ -68,17 +60,17 @@ export default function ProductHowItWorks() {
                         </div>
                     </Grid>
 
-                    <Grid item xs={12} md={4}>
+                    <Grid item lg={4}>
                         <div className={classes.item}>
                             <ThemeProvider theme={theme}>
                                 <Typography variant="h4" marked="center" className={classes.title} component="h2">
                                     How it works
                                 </Typography>
-                                <Typography variant="h5" align="center">
+                                <Typography variant="h6" align="left">
                                     Happy Walrus employs a form artificial intelligence called object recognition to identify kitchen hazards in user photos. We trained the underlying object recognition model by feeding a computer thousands of images within which we had marked tens of thousands of objects (e.g., countertops, ovens, stovetops). 
                                 </Typography>
                                 <br/>
-                                <Typography variant='h5' align='center'>
+                                <Typography variant='h6' align='left'>
                                     Once trained, we can pass any kitchen image to the model, and it will quickly highlight objects that we have taught it to “see”.
                                 </Typography>
                             </ThemeProvider>
