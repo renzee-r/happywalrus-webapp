@@ -44,7 +44,7 @@ const styles = theme => ({
         marginBottom: theme.spacing(2),
       },
       parallaxChild: {
-        height: '120vh',
+        height: '100vh',
         [theme.breakpoints.down('xs')]: {
             height: '180vh'
         },

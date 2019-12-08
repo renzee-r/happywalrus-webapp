@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     demoImage: {
         height: '45vh',
         [breakpoints.down("sm")]: {
-            height: "28vh",
+            height: "25vh",
         }
     },
 }));
