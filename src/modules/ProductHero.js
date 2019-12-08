@@ -47,9 +47,17 @@ const styles = theme => ({
         height: '110vh',
         width: '100%',
         top: 'calc(-45vh + 60px)',
+        [theme.breakpoints.down('md')]: {
+            height: 1800,
+            top: -600 + 60,
+        },
         [theme.breakpoints.down('sm')]: {
-            height: '160vh',
-            top: 'calc(-55vh + 60px)',
+            height: 1800,
+            top: -500 + 60,
+        },
+        [theme.breakpoints.down('xs')]: {
+            height: 1800,
+            top: -325 + 60,
         },
         position: 'relative',
         backgroundImage: `url('hero-bg-1.png')`,
