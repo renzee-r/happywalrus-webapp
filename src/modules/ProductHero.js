@@ -22,8 +22,10 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         marginTop: 60,
-        height: 'calc(100vh - 145px - 20px)',
-        minHeight: 900,
+        height: 'calc(100vh - 60px - 50px)',
+        [theme.breakpoints.down('sm')]: {
+            height: 1600
+        },
         overflowX: 'hidden',
         overflowY: 'hidden',
     },
@@ -45,8 +47,9 @@ const styles = theme => ({
         height: '110vh',
         width: '100%',
         top: 'calc(-45vh + 60px)',
-        [theme.breakpoints.up('xs')]: {
-            top: 'calc(-53vh + 60px)',
+        [theme.breakpoints.down('sm')]: {
+            height: '160vh',
+            top: 'calc(-55vh + 60px)',
         },
         position: 'relative',
         backgroundImage: `url('hero-bg-1.png')`,
