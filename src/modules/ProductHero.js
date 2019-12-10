@@ -49,7 +49,7 @@ const styles = theme => ({
         top: 'calc(-45vh + 60px)',
         [theme.breakpoints.down('md')]: {
             height: 1800,
-            top: -600 + 60,
+            top: -550 + 60,
         },
         [theme.breakpoints.down('sm')]: {
             height: 1800,

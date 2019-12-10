@@ -67,11 +67,11 @@ export default function ProductHowItWorks() {
                                     How it works
                                 </Typography>
                                 <Typography variant="h6" align="left">
-                                    Happy Walrus employs a form artificial intelligence called object recognition to identify kitchen hazards in user photos. We trained the underlying object recognition model by feeding a computer thousands of images within which we had marked tens of thousands of objects (e.g., countertops, ovens, stovetops). 
+                                    Happy Walrus employs a form of artificial intelligence (AI) called object recognition to identify kitchen hazards in user photos. To train the underlying object recognition model, we fed a computer thousands of images within which we had marked tens of thousands of objects that correspond to potential hazards (e.g., countertops, ovens, stovetops).
                                 </Typography>
                                 <br/>
                                 <Typography variant='h6' align='left'>
-                                    Once trained, we can pass any kitchen image to the model, and it will quickly highlight objects that we have taught it to “see”.
+                                    Once trained, we can pass any kitchen image to the model, and it will quickly highlight objects that we have taught it to "see".
                                 </Typography>
                             </ThemeProvider>
                         </div>

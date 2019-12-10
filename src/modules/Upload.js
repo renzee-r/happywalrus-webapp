@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Button, Container, CssBaseline, Grid, Typography
+    Button, Container, CssBaseline, Grid, Typography, ButtonBase
 } from '@material-ui/core';
 import { 
     withRouter
@@ -31,13 +31,13 @@ const styles = theme => ({
         alignItems: 'center',
     },
     step1: {
-        paddingTop: 75
+        paddingTop: 20
     },
     step2: {
-        paddingTop: 75
+        paddingTop: 40
     },
     gridItemButton: {
-        paddingTop: '10vh',
+        paddingTop: 40,
     },
     button: {
         fontSize: 20,
@@ -50,7 +50,76 @@ const styles = theme => ({
     },
     input: {
         display: 'none',
-    }
+    },
+    gridItemDemo: {
+        margin: 10,
+        marginTop: 240
+    },
+    gridItemDemoImage: {
+        marginTop: 120
+    },
+    demoImage: {
+        position: 'relative',
+        height: 350,
+        '&:hover, &$focusVisible': {
+          zIndex: 1,
+          '& $imageBackdrop': {
+            opacity: 0.4,
+          },
+          '& $imageMarked': {
+            opacity: 0,
+          },
+          '& $imageTitle': {
+            border: '4px solid currentColor',
+            opacity: 1,
+          },
+        },
+      },
+      focusVisible: {},
+      imageButton: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: theme.palette.common.white,
+      },
+      imageSrc: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 40%',
+      },
+      imageBackdrop: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundColor: theme.palette.common.black,
+        opacity: 0,
+        transition: theme.transitions.create('opacity'),
+      },
+      imageTitle: {
+        position: 'relative',
+        opacity: 0,
+        padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) + 6}px`,
+      },
+      imageMarked: {
+        height: 3,
+        width: 18,
+        backgroundColor: theme.palette.common.white,
+        position: 'absolute',
+        bottom: -2,
+        left: 'calc(50% - 9px)',
+        transition: theme.transitions.create('opacity'),
+      }
 });
 
 class Upload extends Component {
@@ -62,6 +131,7 @@ class Upload extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleImageClick = this.handleImageClick.bind(this);
         this.handleImageUpload = this.handleImageUpload.bind(this);
+        this.handleDemoClick = this.handleDemoClick.bind(this);
 
         this.state = {
             isOpen: false,
@@ -102,6 +172,15 @@ class Upload extends Component {
                 state: { fileInput: this.fileInput.current.files[0] }
             })
         }
+    }
+
+    handleDemoClick() {
+        var demoFile = new File([""], 'demo.jpg')
+        console.log(demoFile)
+        this.props.history.push({
+            pathname: '/analyzing',
+            state: { fileInput: demoFile }
+        })
     }
 
     render() {
@@ -180,6 +259,43 @@ class Upload extends Component {
                                     }
                                 </label>
                             </Grid>
+{/* 
+                            <Grid item md={4} align="center" className={classes.gridItemDemo}>
+                                <Typography variant='h6'>
+                                    Don't have an image to upload?<br/>Try out HappyWalrus with the provided demo image!
+                                </Typography>
+                            </Grid>
+
+                            <Grid item md={6} align='center' className={classes.gridItemDemoImage}>
+                                <ButtonBase
+                                    focusRipple
+                                    className={classes.demoImage}
+                                    focusVisibleClassName={classes.focusVisible}
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    onClick={this.handleDemoClick}
+                                    >
+                                    <span
+                                        className={classes.imageSrc}
+                                        style={{
+                                        backgroundImage: `url(demo.jpg)`,
+                                        }}
+                                    />
+                                    <span className={classes.imageBackdrop} />
+                                    <span className={classes.imageButton}>
+                                        <Typography
+                                        component="span"
+                                        variant="subtitle1"
+                                        color="inherit"
+                                        className={classes.imageTitle}
+                                        >
+                                        Demo Image
+                                        <span className={classes.imageMarked} />
+                                        </Typography>
+                                    </span>
+                                </ButtonBase>
+                            </Grid> */}
                             </ThemeProvider>
                         </Grid>
                     </Container>
